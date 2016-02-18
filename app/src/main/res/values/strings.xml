@@ -3,6 +3,14 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="cerrarSesion">Cerrar sesion</string>
+    <string name="activarGPS">Activar/desactivar GPS</string>
+    <string name="logIn">Login</string>
+    <string name="entrar">Entrar</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="nombre">Nombre : </string>
+    <string name="passWord">contraseña : </string>
+
 </resources>
