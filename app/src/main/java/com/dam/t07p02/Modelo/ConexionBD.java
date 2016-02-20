@@ -57,7 +57,7 @@ public class ConexionBD {
         } catch (Exception e1) {
             try {
                 sql="CREATE TABLE usuarios ("+
-                        "dniActualizacion CHAR(9) NOT NULL,"+
+                        "dni CHAR(9) NOT NULL,"+
                         "contraseña VARCHAR(100) NOT NULL,"+
                         "CONSTRAINT pk_usuarios PRIMARY KEY (dni));";
                 st.executeUpdate(sql);
