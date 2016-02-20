@@ -16,7 +16,6 @@ import android.view.View;
 
 import com.dam.t07p02.Modelo.ConexionBD;
 
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,8 +43,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        Intent i=new Intent(MainActivity.this,LogActivity.class);
-        startActivityForResult(i, 1);
+
+//        Intent i=new Intent(MainActivity.this,LogActivity.class);
+//        startActivityForResult(i, 1);
 
         ConexionBD bd= ConexionBD.getInstancia();
         if(bd.abrirConexion(this)){
@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.mPreferencias) {
-            // Handle the camera action
+            Intent i = new Intent(MainActivity.this,Preferencias.class);
+            startActivity(i);
         }
         else if (id == R.id.mCerrarSesion) {
 

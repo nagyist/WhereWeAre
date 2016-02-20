@@ -12,5 +12,12 @@
     <string name="registrarse">Registrarse</string>
     <string name="nombre">Nombre : </string>
     <string name="passWord">contraseña : </string>
+    <string name="URLBD">URL base de datos</string>
+    <string name="DURLBD">Direccion para la conexion de base de datos del registro</string>
+    <string name="UserBD">Usuario de base de datos</string>
+    <string name="DUserBD">Nombre del usuario de base de datos(No del usuario de registro de GPS)</string>
+    <string name="PassWBD">Contraseña base de datos</string>
+    <string name="DPassWBD">Indique la contraseña del usuario de base de datos</string>
+
 
 </resources>

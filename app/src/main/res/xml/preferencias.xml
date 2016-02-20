@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Almacenamiento">
+        <EditTextPreference
+            android:key="pURLBD"
+            android:title="@string/URLBD"
+            android:summary="@string/DURLBD"
+            android:defaultValue="sql2.freesqldatabase.com"/>
+        <EditTextPreference
+            android:key="pUSerBD"
+            android:title="@string/UserBD"
+            android:summary="@string/DUserBD"
+            android:defaultValue="sql2106947"/>
+        <EditTextPreference
+            android:key="pPSBD"
+            android:title="@string/PassWBD"
+            android:summary="@string/DPassWBD"
+            android:defaultValue="lD5!fR2*"/>
+    </PreferenceCategory>
+</PreferenceScreen>
