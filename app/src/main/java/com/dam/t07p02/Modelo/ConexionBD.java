@@ -77,12 +77,10 @@ public class ConexionBD {
     {
         public void run() {
             SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(context);
-//            String user=pref.getString("mySQLUSER", "sql2106998");
-//            String password=pref.getString("mySQLPASSWORD", "wR7!vS4%");
-//            String url="jdbc:mysql://sql2.freesqldatabase.com:3306/"+user;
-            String user="sql2106998";
-            String password="wR7!vS4%";
-            String url="jdbc:mysql://sql2.freesqldatabase.com:3306/"+user;
+            String user=pref.getString("pUSerBD", "sql2106998");
+            String password=pref.getString("pPSBD", "wR7!vS4%");
+            String url= pref.getString("pURLBD","jdbc:mysql://sql2.freesqldatabase.com:3306/");
+            url+=user;
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 //conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/test");

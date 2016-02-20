@@ -5,16 +5,16 @@
             android:key="pURLBD"
             android:title="@string/URLBD"
             android:summary="@string/DURLBD"
-            android:defaultValue="sql2.freesqldatabase.com"/>
+            android:defaultValue="jdbc:mysql://sql2.freesqldatabase.com:3306/"/>
         <EditTextPreference
             android:key="pUSerBD"
             android:title="@string/UserBD"
             android:summary="@string/DUserBD"
-            android:defaultValue="sql2106947"/>
+            android:defaultValue="sql2106998"/>
         <EditTextPreference
             android:key="pPSBD"
             android:title="@string/PassWBD"
             android:summary="@string/DPassWBD"
-            android:defaultValue="lD5!fR2*"/>
+            android:defaultValue="wR7!vS4%"/>
     </PreferenceCategory>
 </PreferenceScreen>
