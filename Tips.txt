@@ -1,0 +1,10 @@
+pantalla de log in
+al pulsar sobre dar de alta hacer un objeto usuario con ese id y esa contraseña, si existe pasará al main activity donde en el activity result se pasará el id del usuario para hacer las inserts
+si no existe mandar el error de usuario incorrecto o ps incorrecta
+
+al pulsar sobre darse de alta el texto de darse de alta desaparecerá, 
+el texto de entrar cambiará a crear y la contraseña se borrará
+
+cuando se pulse el botón de dar de alta se hará una select a la base de datos, si no existe 
+usuario con ese id entonces se hará una insert de ese usuario y esa contraseña , si no se 
+informará al usuario de que ya existe

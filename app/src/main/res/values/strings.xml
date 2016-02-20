@@ -18,6 +18,9 @@
     <string name="DUserBD">Nombre del usuario de base de datos(No del usuario de registro de GPS)</string>
     <string name="PassWBD">Contraseña base de datos</string>
     <string name="DPassWBD">Indique la contraseña del usuario de base de datos</string>
+    <string name="indroduzcaNombreYContrasenia">Debe indroducir un usuario y una contraseña</string>
+    <string name="indroduzcaNombre">Debe indroducir un usuario</string>
+    <string name="indroduzcaContrasenia">Debe indroducir una contraseña</string>
 
 
 </resources>

@@ -27,15 +27,18 @@ public class ConexionBD {
     // Método para obtener la única instancia de la clase
     public static ConexionBD getInstancia() {
         if (instancia==null) {
-//            synchronized (ConexionBD.class) {
-//                if (instancia==null)
-//                    instancia=new ConexionBD();
-//            }
+            synchronized (ConexionBD.class) {
+                if (instancia==null)
+                    instancia=new ConexionBD();
+            }
             instancia=new ConexionBD();
         }
         return instancia;
     }
 
+    public Statement getSt() {
+        return st;
+    }
 
     public boolean abrirConexion(Context context) {
         this.context = context;
