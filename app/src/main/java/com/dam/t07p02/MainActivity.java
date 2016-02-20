@@ -100,8 +100,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.mPreferencias) {
-            Intent i = new Intent(MainActivity.this,Preferencias.class);
+            Intent i = new Intent(MainActivity.this,PreferenciasActivity.class);
             startActivity(i);
+            return true;
         }
         else if (id == R.id.mCerrarSesion) {
 
