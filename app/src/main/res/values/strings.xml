@@ -21,6 +21,10 @@
     <string name="indroduzcaNombreYContrasenia">Debe indroducir un usuario y una contraseña</string>
     <string name="indroduzcaNombre">Debe indroducir un usuario</string>
     <string name="indroduzcaContrasenia">Debe indroducir una contraseña</string>
+    <string name="errorExisteUsuario">Error: Existe el usuario</string>
+    <string name="errorNoExisteUsuario">Error: No Existe el usuario</string>
+    <string name="errorPsIncorrecta">Error: contraseña incorrecta</string>
+    <string name="altaUsuarioCorrecta">Alta de usuario correcta</string>
 
 
 </resources>

@@ -44,6 +44,14 @@ public class Usuario {
     public boolean existeUsuario() throws SQLException {
         String sql="select count(*) from usuarios where dni="+this.dni;
         ResultSet rs=st.executeQuery(sql);
-        return rs.next();
+        if(rs==null){
+            return false;
+        }
+        return true;
+    }
+    public boolean passWordCorrecta() throws SQLException {
+        String sql="select contraseña from usuarios where dni="+this.dni;
+        ResultSet rs=st.executeQuery(sql);
+        return rs.getString(1).equals(this.passWord);
     }
 }
