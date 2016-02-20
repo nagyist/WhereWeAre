@@ -8,11 +8,15 @@ public class Usuario {
     private String dni;
     private String passWord;
     private Statement st;
+    private boolean alta;
+    private boolean baja;
+    private boolean existeUsuario;
+    private boolean pSCorrecta;
 
     public Usuario(String dni, String passWord) {
         this.dni = dni;
         this.passWord = passWord;
-        this.st =ConexionBD.getInstancia().getSt();
+        this.st =ConexionBD.getSt();
     }
     public void setDni(String dni) {
         this.dni = dni;
@@ -32,26 +36,90 @@ public class Usuario {
     }
 
     public boolean altaUsuario() throws SQLException {
-        String sql="insert into usuarios values("+this.dni+","+this.passWord+")";
-        st.execute(sql);
-        return true;
+        TAltaUsuario t=new TAltaUsuario();
+        t.start();
+        try {
+            t.join(10000);
+        }
+        catch (InterruptedException e) {return false;}
+        return alta;
+    }
+    private class TAltaUsuario extends Thread {
+        public void run() {
+            alta =true;
+            String sql="insert into usuarios values('"+dni+"','"+passWord+"')";
+            try {
+                st.execute(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                alta =false;
+            }
+        }
     }
     public boolean bajaUsuario() throws SQLException {
-        String sql="delete from usuarios where dni="+this.dni;
-        st.execute(sql);
-        return true;
+        TBajaUsuario t=new TBajaUsuario();
+        t.start();
+        try {
+            t.join(10000);
+        }
+        catch (InterruptedException e) {return false;}
+        return baja;
+    }
+    private class TBajaUsuario extends Thread {
+        public void run() {
+            baja=true;
+            String sql="delete from usuarios where dni='"+dni+"'";
+            try {
+                st.execute(sql);
+            } catch (SQLException e) {
+                baja=false;
+            }
+        }
     }
     public boolean existeUsuario() throws SQLException {
-        String sql="select count(*) from usuarios where dni="+this.dni;
-        ResultSet rs=st.executeQuery(sql);
-        if(rs==null){
-            return false;
+        TExisteUsuario t=new TExisteUsuario();
+        t.start();
+        try {
+            t.join(10000);
         }
-        return true;
+        catch (InterruptedException e) {return false;}
+        return existeUsuario;
+    }
+    private class TExisteUsuario extends Thread {
+        public void run() {
+            String sql="select count(*) from usuarios where dni='"+dni+"'";
+            ResultSet rs= null;
+            try {
+                rs = st.executeQuery(sql);
+                if(rs==null){
+                    existeUsuario=false;
+                }
+                existeUsuario=true;
+            } catch (SQLException e) {
+                existeUsuario=false;
+            }
+
+        }
     }
     public boolean passWordCorrecta() throws SQLException {
-        String sql="select contraseña from usuarios where dni="+this.dni;
-        ResultSet rs=st.executeQuery(sql);
-        return rs.getString(1).equals(this.passWord);
+        TPassWordCorrecta t=new TPassWordCorrecta();
+        t.start();
+        try {
+            t.join(10000);
+        }
+        catch (InterruptedException e) {return false;}
+        return pSCorrecta;
+    }
+    private class TPassWordCorrecta extends Thread {
+        public void run() {
+            String sql="select contraseña from usuarios where dni='"+dni+"'";
+            try {
+                ResultSet rs=st.executeQuery(sql);
+                pSCorrecta= rs.getString(1).equals(passWord);
+                st.execute(sql);
+            } catch (SQLException e) {
+                pSCorrecta=false;
+            }
+        }
     }
 }

@@ -9,9 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.Usuario;
-
-import org.w3c.dom.Text;
 
 import java.sql.SQLException;
 
@@ -20,7 +19,7 @@ public class LogActivity extends AppCompatActivity {
     private Button bEntrar;
     private EditText eTNombre,eTPassWord;
     private TextView tDarseDeAlta;
-    private boolean darseDeAlta;
+    private boolean entrar;
 
 
     @Override
@@ -34,13 +33,20 @@ public class LogActivity extends AppCompatActivity {
         tDarseDeAlta= (TextView) findViewById(R.id.tRegistrarse);
         bEntrar.setOnClickListener(lisEntrar);
         tDarseDeAlta.setOnClickListener(listDarseDeAlta);
-        this.darseDeAlta=true;
+        this.entrar =true;
+        ConexionBD bd= ConexionBD.getInstancia();
+        if(bd.abrirConexion(this)){
+            Snackbar.make(findViewById(android.R.id.content),"Conexión abierta!",Snackbar.LENGTH_SHORT).show();
+
+        }else{
+            Snackbar.make(findViewById(android.R.id.content),"Error en la conexión!",Snackbar.LENGTH_SHORT).show();
+        }
     }
 
     View.OnClickListener lisEntrar=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(darseDeAlta){
+            if(entrar){
                 if(eTNombre.getText().toString().equals("") && eTPassWord.getText().toString().equals(""))
                     Snackbar.make(findViewById(android.R.id.content), R.string.indroduzcaNombreYContrasenia, Snackbar.LENGTH_SHORT).show();
                 else if(eTNombre.getText().toString().equals("") && !eTPassWord.getText().toString().equals(""))
@@ -80,8 +86,10 @@ public class LogActivity extends AppCompatActivity {
                         if(u.existeUsuario())
                             Snackbar.make(findViewById(android.R.id.content), R.string.errorExisteUsuario, Snackbar.LENGTH_SHORT).show();
                         else {
-                            u.altaUsuario();
-                            Snackbar.make(findViewById(android.R.id.content), R.string.altaUsuarioCorrecta, Snackbar.LENGTH_SHORT).show();
+                            if(u.altaUsuario())
+                                Snackbar.make(findViewById(android.R.id.content), R.string.altaUsuarioCorrecta, Snackbar.LENGTH_SHORT).show();
+                            else
+                                Snackbar.make(findViewById(android.R.id.content), R.string.altaUsuarioInCorrecta, Snackbar.LENGTH_SHORT).show();
                         }
                     } catch (SQLException e) {
                         Snackbar.make(findViewById(android.R.id.content),e.getMessage(), Snackbar.LENGTH_SHORT).show();
@@ -93,15 +101,15 @@ public class LogActivity extends AppCompatActivity {
     View.OnClickListener listDarseDeAlta=new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(darseDeAlta){
+            if(entrar){
                 tDarseDeAlta.setText(R.string.entrar);
                 bEntrar.setText(R.string.registrarse);
-                darseDeAlta=false;
+                entrar =false;
             }
             else{
                 tDarseDeAlta.setText(R.string.registrarse);
                 bEntrar.setText(R.string.entrar);
-                darseDeAlta=true;
+                entrar =true;
             }
 
 

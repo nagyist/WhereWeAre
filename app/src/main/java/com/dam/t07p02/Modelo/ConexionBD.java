@@ -14,11 +14,12 @@ public class ConexionBD {
 
     private Context context;
     private Connection conn;
-    private Statement st;
+
     private boolean errorMySQL;
 
     // Patrón Singleton (instancia única)
     private static ConexionBD instancia=null;
+    private static Statement st;
 
     // Constructor private para evitar acceso
     private ConexionBD() {
@@ -32,11 +33,14 @@ public class ConexionBD {
                     instancia=new ConexionBD();
             }
             instancia=new ConexionBD();
+            if (st==null){
+                st= instancia.getSt();
+            }
         }
         return instancia;
     }
 
-    public Statement getSt() {
+    public static Statement getSt() {
         return st;
     }
 
@@ -80,13 +84,15 @@ public class ConexionBD {
     {
         public void run() {
             SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(context);
-            String user=pref.getString("pUSerBD", "sql2106998");
-            String password=pref.getString("pPSBD", "wR7!vS4%");
-            String url= pref.getString("pURLBD","jdbc:mysql://sql2.freesqldatabase.com:3306/");
+//            String user=pref.getString("pUSerBD", "sql2106998");
+//            String password=pref.getString("pPSBD", "wR7!vS4%");
+//            String url= pref.getString("pURLBD", "jdbc:mysql://sql2.freesqldatabase.com:3306/");
+            String user="sql2106998";
+            String password="wR7!vS4%";
+            String url= "jdbc:mysql://sql2.freesqldatabase.com:3306/";
             url+=user;
             try {
                 Class.forName("com.mysql.jdbc.Driver");
-                //conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/test");
                 conn=DriverManager.getConnection(url, user, password);
                 st=conn.createStatement();
                 crearTablasMySQL();
