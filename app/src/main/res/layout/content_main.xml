@@ -12,9 +12,10 @@
     tools:context="com.dam.t07p02.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <fragment
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="android.webkit.WebViewFragment"
-        android:id="@+id/fragment" />
+        android:layout_height="match_parent"/>
+
 </RelativeLayout>

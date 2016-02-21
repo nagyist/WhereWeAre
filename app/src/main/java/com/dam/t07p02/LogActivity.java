@@ -1,5 +1,6 @@
 package com.dam.t07p02;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -60,7 +61,7 @@ public class LogActivity extends AppCompatActivity {
                             if(u.passWordCorrecta()){
                                 Intent i=new Intent();
                                 i.putExtra("dni",u.getDni());
-                                setResult(1,i);
+                                setResult(Activity.RESULT_OK,i);
                                 finish();
                             }
                             else
@@ -87,8 +88,12 @@ public class LogActivity extends AppCompatActivity {
                         if(u.existeUsuario())
                             Snackbar.make(findViewById(android.R.id.content), R.string.errorExisteUsuario, Snackbar.LENGTH_SHORT).show();
                         else {
-                            if(u.altaUsuario())
+                            if(u.altaUsuario()){
                                 Snackbar.make(findViewById(android.R.id.content), R.string.altaUsuarioCorrecta, Snackbar.LENGTH_SHORT).show();
+                                tDarseDeAlta.setText(R.string.registrarse);
+                                bEntrar.setText(R.string.entrar);
+                                entrar =true;
+                            }
                             else
                                 Snackbar.make(findViewById(android.R.id.content), R.string.altaUsuarioInCorrecta, Snackbar.LENGTH_SHORT).show();
                         }
