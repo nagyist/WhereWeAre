@@ -26,6 +26,7 @@
     <string name="errorPsIncorrecta">Error: contraseña incorrecta</string>
     <string name="altaUsuarioCorrecta">Alta de usuario correcta</string>
     <string name="altaUsuarioInCorrecta">Alta de usuario incorrecta</string>
+    <string name="actualizarPosiciones">Actualizar Posiciones</string>
 
 
 </resources>

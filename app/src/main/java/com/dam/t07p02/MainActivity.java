@@ -18,14 +18,16 @@ import android.view.View;
 import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.Usuario;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
-//    OnMapReadyCallback
     private Usuario usu;
+    private GoogleMap googleMapMA;
+    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,8 +46,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        Intent i=new Intent(MainActivity.this,LogActivity.class);
-        startActivityForResult(i, 1);
+//        Intent i=new Intent(MainActivity.this,LogActivity.class);
+//        startActivityForResult(i, 1);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(MainActivity.this);
     }
 
     @Override
@@ -92,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.mActualizarPosciones) {
             return true;
         }
 
@@ -124,8 +119,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(37, 37))
-                .title("Marker"));
+        googleMapMA=googleMap;
+        setupMap();
+    }
+
+
+    private void setupMap() {
+        if (googleMapMA != null ) {
+            googleMapMA.addMarker(new MarkerOptions()
+                    .position(new LatLng(38.1065479, -1.8659812))
+                    .title("Marker"));
+        }
     }
 }

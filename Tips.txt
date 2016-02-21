@@ -1,5 +1,7 @@
 **implementar el onActivity resul*************
 
+**poner una marca en el mapa
+
 ** implementar la lectura de gps y la inserts de las lecturas de gps 
 
 ** en la actividad principal habrá un botón para actualizar la posicion de los usuarios en el mapa 
