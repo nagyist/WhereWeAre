@@ -60,7 +60,8 @@ public class LogActivity extends AppCompatActivity {
                             if(u.passWordCorrecta()){
                                 Intent i=new Intent();
                                 i.putExtra("dni",u.getDni());
-                                setResult(0,i);
+                                setResult(1,i);
+                                finish();
                             }
                             else
                                 Snackbar.make(findViewById(android.R.id.content), R.string.errorPsIncorrecta, Snackbar.LENGTH_SHORT).show();
