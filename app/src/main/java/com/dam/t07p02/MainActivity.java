@@ -11,17 +11,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.dam.t07p02.Modelo.ConexionBD;
+import com.dam.t07p02.Modelo.Localizacion;
 import com.dam.t07p02.Modelo.Usuario;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
 
@@ -44,10 +48,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        Intent i=new Intent(MainActivity.this,LogActivity.class);
+        startActivityForResult(i, 1);
 
-
-//        Intent i=new Intent(MainActivity.this,LogActivity.class);
-//        startActivityForResult(i, 1);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainActivity.this);
     }
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.mActualizarPosciones) {
+            mapFragment.getMapAsync(MainActivity.this);
             return true;
         }
 
@@ -126,9 +130,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupMap() {
         if (googleMapMA != null ) {
-            googleMapMA.addMarker(new MarkerOptions()
-                    .position(new LatLng(38.1065479, -1.8659812))
-                    .title("Marker"));
+            ArrayList l=new ArrayList();
+            ConexionBD bd= ConexionBD.getInstancia();
+            if(bd.abrirConexion(this)){
+                bd.localizacionUsuarios(l);
+                for(Object ll:l){
+                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(), ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
+                }
+            }else{
+                Snackbar.make(findViewById(android.R.id.content),"Error en la conexión!",Snackbar.LENGTH_SHORT).show();
+            }
+
         }
     }
 }

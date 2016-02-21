@@ -8,12 +8,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 
 public class ConexionBD {
 
     private Context context;
     private Connection conn;
+    private ArrayList lLocalizaciones;
+    private boolean consultaCorrecta;
 
     private boolean errorMySQL;
 
@@ -140,6 +143,37 @@ public class ConexionBD {
         }
 
         return !errorMySQL;
+    }
+
+
+    private class Thread_localizacionUsuarios extends Thread
+    {
+        public void run() {
+            String sql="SELECT * \n" +
+                        "FROM  `localizacion` ";
+            consultaCorrecta=false;
+            try {
+                ResultSet rs=st.executeQuery(sql);
+                while(rs.next()){
+                    Localizacion l=new Localizacion(rs.getString(1),rs.getDouble(2),rs.getDouble(3));
+                    lLocalizaciones.add(l);
+                }
+                consultaCorrecta=true;
+            } catch (SQLException e) {}
+        }
+    }
+
+    public boolean localizacionUsuarios(ArrayList l){
+        lLocalizaciones=l;
+        Thread_localizacionUsuarios t=new Thread_localizacionUsuarios();
+        t.start();
+        try {
+            t.join(90000);
+        } catch (InterruptedException e) {
+            return false;
+        }
+
+        return consultaCorrecta;
     }
 
 }
