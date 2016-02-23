@@ -124,10 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.mActiGPS) {
             Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
+            i.putExtra("usuario",usu.getDni());
             startService(i);
-            Intent ii=new Intent();
-            ii.putExtra("usuario",usu.getDni());
-            sendBroadcast(ii);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -144,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupMap() {
         if (googleMapMA != null )  {
+            googleMapMA.clear();
             ArrayList l=new ArrayList();
             ConexionBD bd= ConexionBD.getInstancia();
             if(bd.isConected()){

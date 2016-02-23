@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -34,8 +35,8 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBNoffP5bEBWtMTMiWP0bsLuD1qAgeEvOE"/>
-        
+            android:value="AIzaSyCS3-c0Z74Obusqp4f-FEUfhr_crOGSwu4"/>
+
         <service android:name=".Modelo.LocalizacionGPS" />
     </application>
 

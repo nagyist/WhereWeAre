@@ -1,33 +1,38 @@
 package com.dam.t07p02.Modelo;
 
 import android.app.IntentService;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.List;
+
+import static java.lang.Thread.sleep;
+
 public class LocalizacionGPS extends IntentService implements LocationListener, GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener{
 
+    private GoogleApiClient gAC;
     private LocationManager locM;
     private Location loc;
-    private GoogleApiClient gAC;
-    private boolean internetConected;
     private ConexionBD bd;
-    public static String modificar="MODIF";
     private String usuario;
+
+    private LocationRequest mLocationRequest;
 
     public LocalizacionGPS() {
         super("LocalizacionGPS");
     }
+
+
 
     @Override
     public void onCreate() {
@@ -37,46 +42,83 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-        this.locM= (LocationManager)getSystemService(LOCATION_SERVICE);
+        this.locM= (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         bd=ConexionBD.getInstancia();
         if(bd.isConected())
+            createLocationRequest();
             getLocation();
     }
 
+
+
     protected void createLocationRequest() {
-        LocationRequest mLocationRequest = new LocationRequest();
+        this.mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-    public Location getLocation(){
-        try{
-            if(!locM.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                internetConected=true;
-                this.loc=locM.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER,30000,0,this);
+    private Location getLastKnownLocation() {
+        locM = (LocationManager)getApplicationContext().
+                getSystemService(LOCATION_SERVICE);
+        List<String> providers = locM.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Location l = locM.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
             }
-        }catch (SecurityException e){}
-
-        return  this.loc;
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
+
+    public void getLocation(){
+        try{
+            if(locM.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300, 0, this);
+                this.loc=getLastKnownLocation();
+
+            }
+        }catch (SecurityException e){e.printStackTrace();}
+    }
+
+
+
 
     @Override
     public void onDestroy() {
-
         try{
             locM.removeUpdates(this);
         }catch (SecurityException e){}
         super.onDestroy();
     }
 
+
+
     @Override
     protected void onHandleIntent(Intent intent) {
-        getLocation();
+
         this.usuario=intent.getExtras().getString("usuario");
-        bd.actualizarLocalizacion(new Localizacion(usuario,loc.getLatitude(),loc.getLongitude()));
+        while(true){
+            getLocation();
+            if(this.loc!=null){
+                Log.i("info",usuario+"  La: "+loc.getLatitude()+"    Lo: "+loc.getLongitude());
+                bd.actualizarLocalizacion(new Localizacion(usuario, loc.getLatitude(), loc.getLongitude()));
+            }
+            try {
+                sleep(300);
+            } catch (InterruptedException e) {
+                ;
+            }
+        }
+
+
     }
+
 
     @Override
     public void onLocationChanged(Location location) {

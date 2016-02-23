@@ -182,9 +182,7 @@ public class ConexionBD {
     private class Thread_actualizarLoc extends Thread
     {
         public void run() {
-            String sql="update table Localizaciones " +
-                    "set Latitud='"+u.getLatitud()+"',Longitud='"+u.getLongitud()+"' " +
-                    "where dni='"+u.getDni()+"'";
+            String sql="UPDATE `localizacion` SET `latitud`="+u.getLatitud()+",`longitud`="+u.getLongitud()+" WHERE dni='"+u.getDni()+"'";
             updateCorrecta=false;
             try {
                 st.execute(sql);
