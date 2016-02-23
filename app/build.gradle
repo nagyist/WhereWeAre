@@ -26,4 +26,6 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile files('libs/mysql-connector-java-5.0.8-bin.jar')
     compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+
 }

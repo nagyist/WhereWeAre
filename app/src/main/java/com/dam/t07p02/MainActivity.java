@@ -129,13 +129,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setupMap() {
-        if (googleMapMA != null ) {
+        if (googleMapMA != null )  {
             ArrayList l=new ArrayList();
             ConexionBD bd= ConexionBD.getInstancia();
             if(bd.abrirConexion(this)){
                 bd.localizacionUsuarios(l);
                 for(Object ll:l){
-                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(), ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
+//                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
+//                            ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
                 }
             }else{
                 Snackbar.make(findViewById(android.R.id.content),"Error en la conexión!",Snackbar.LENGTH_SHORT).show();

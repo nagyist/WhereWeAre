@@ -126,4 +126,22 @@ public class Usuario {
             }
         }
     }
+
+    public boolean actualizarPosicion(){
+        return true;
+    }
+
+    private class TActualizarPosicion extends Thread {
+        public void run() {
+            String sql="SELECT contraseña FROM usuarios WHERE dni = '"+dni+"'";
+            try {
+                ResultSet rs=st.executeQuery(sql);
+                if(rs.next()){
+                    pSCorrecta= rs.getString(1).equals(passWord);
+                }
+            } catch (SQLException e) {
+                pSCorrecta=false;
+            }
+        }
+    }
 }
