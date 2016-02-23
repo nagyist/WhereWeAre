@@ -20,6 +20,7 @@ import android.view.View;
 
 import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.Localizacion;
+import com.dam.t07p02.Modelo.LocalizacionGPS;
 import com.dam.t07p02.Modelo.Usuario;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -122,7 +123,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
         else if (id == R.id.mActiGPS) {
-
+            Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
+            startService(i);
+            Intent ii=new Intent();
+            ii.putExtra("usuario",usu.getDni());
+            sendBroadcast(ii);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

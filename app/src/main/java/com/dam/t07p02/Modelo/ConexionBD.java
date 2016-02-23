@@ -18,6 +18,8 @@ public class ConexionBD {
     private ArrayList lLocalizaciones;
     private boolean consultaCorrecta;
     private boolean conected;
+    private boolean updateCorrecta;
+    private Localizacion u;
 
     // Patrón Singleton (instancia única)
     private static ConexionBD instancia=null;
@@ -174,6 +176,33 @@ public class ConexionBD {
 
     public boolean isConected() {
         return conected;
+    }
+
+
+    private class Thread_actualizarLoc extends Thread
+    {
+        public void run() {
+            String sql="update table Localizaciones " +
+                    "set Latitud='"+u.getLatitud()+"',Longitud='"+u.getLongitud()+"' " +
+                    "where dni='"+u.getDni()+"'";
+            updateCorrecta=false;
+            try {
+                st.execute(sql);
+                updateCorrecta=true;
+            } catch (SQLException e) {}
+        }
+    }
+
+    public boolean actualizarLocalizacion(Localizacion u){
+        this.u=u;
+        Thread_actualizarLoc tAL=new Thread_actualizarLoc();
+        tAL.start();
+        try {
+            tAL.join(90000);
+        } catch (InterruptedException e) {
+            return false;
+        }
+        return updateCorrecta;
     }
 }
 
