@@ -50,8 +50,10 @@ public class Usuario {
         public void run() {
             alta =true;
             String sql="insert into usuarios values('"+dni+"','"+passWord+"')";
+            String sql2="insert into localizacion values('"+dni+"',0,0)";
             try {
                 st.execute(sql);
+                st.execute(sql2);
             } catch (SQLException e) {
                 e.printStackTrace();
                 alta =false;

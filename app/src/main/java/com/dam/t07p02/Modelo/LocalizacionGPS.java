@@ -106,8 +106,9 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         while(true){
             getLocation();
             if(this.loc!=null){
+                Localizacion l=new Localizacion(usuario,loc.getLatitude(),loc.getLongitude());
                 Log.i("info",usuario+"  La: "+loc.getLatitude()+"    Lo: "+loc.getLongitude());
-                bd.actualizarLocalizacion(new Localizacion(usuario, loc.getLatitude(), loc.getLongitude()));
+                l.actualizarLocalizacion();
             }
             try {
                 sleep(300);
