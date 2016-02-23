@@ -17,8 +17,7 @@ public class ConexionBD {
     private Connection conn;
     private ArrayList lLocalizaciones;
     private boolean consultaCorrecta;
-
-    private boolean errorMySQL;
+    private boolean conected;
 
     // Patrón Singleton (instancia única)
     private static ConexionBD instancia=null;
@@ -87,12 +86,9 @@ public class ConexionBD {
     {
         public void run() {
             SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(context);
-//            String user=pref.getString("pUSerBD", "sql2106998");
-//            String password=pref.getString("pPSBD", "wR7!vS4%");
-//            String url= pref.getString("pURLBD", "jdbc:mysql://sql2.freesqldatabase.com:3306/");
-            String user="sql2106998";
-            String password="wR7!vS4%";
-            String url= "jdbc:mysql://sql2.freesqldatabase.com:3306/";
+            String user=pref.getString("pUSerBD", "sql2106998");
+            String password=pref.getString("pPSBD", "wR7!vS4%");
+            String url= pref.getString("pURLBD", "jdbc:mysql://sql2.freesqldatabase.com:3306/");
             url+=user;
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -100,14 +96,14 @@ public class ConexionBD {
                 st=conn.createStatement();
                 crearTablasMySQL();
             } catch (Exception e) {
-                errorMySQL=true;
+                conected =true;
             }
         }
     }
 
 
     private boolean abrirConexionMySQL() {
-        errorMySQL=false;
+        conected =false;
         Thread_abrirConexionMySQL tac=new Thread_abrirConexionMySQL();
         tac.start();
         try {
@@ -116,7 +112,7 @@ public class ConexionBD {
             return false;
         }
 
-        return !errorMySQL;
+        return !conected;
     }
 
     private class Thread_cerrarConexionMySQL extends Thread
@@ -126,14 +122,14 @@ public class ConexionBD {
                 if (st!=null) st.close();
                 if (conn!=null) conn.close();
             } catch (Exception e) {
-                errorMySQL=true;
+                conected =true;
             }
         }
     }
 
 
     private boolean cerrarConexionMySQL() {
-        errorMySQL=false;
+        conected =false;
         Thread_cerrarConexionMySQL tcc=new Thread_cerrarConexionMySQL();
         tcc.start();
         try {
@@ -142,7 +138,7 @@ public class ConexionBD {
             return false;
         }
 
-        return !errorMySQL;
+        return !conected;
     }
 
 
@@ -176,6 +172,9 @@ public class ConexionBD {
         return consultaCorrecta;
     }
 
+    public boolean isConected() {
+        return conected;
+    }
 }
 
 

@@ -10,8 +10,8 @@
     <string name="logIn">Login</string>
     <string name="entrar">Entrar</string>
     <string name="registrarse">Registrarse</string>
-    <string name="nombre">Nombre : </string>
-    <string name="passWord">contraseña : </string>
+    <string name="nombre">Nombre </string>
+    <string name="passWord">Contraseña </string>
     <string name="URLBD">URL base de datos</string>
     <string name="DURLBD">Direccion para la conexion de base de datos del registro</string>
     <string name="UserBD">Usuario de base de datos</string>

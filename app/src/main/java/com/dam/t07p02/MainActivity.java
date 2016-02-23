@@ -3,6 +3,8 @@ package com.dam.t07p02;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -53,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainActivity.this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        PreferenceManager.setDefaultValues(this, R.xml.preferencias, false);
+        setupMap();
     }
 
     @Override
@@ -132,11 +141,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (googleMapMA != null )  {
             ArrayList l=new ArrayList();
             ConexionBD bd= ConexionBD.getInstancia();
-            if(bd.abrirConexion(this)){
+            if(bd.isConected()){
                 bd.localizacionUsuarios(l);
                 for(Object ll:l){
-//                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
-//                            ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
+                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
+                            ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
+                }
+            }
+            else if(bd.abrirConexion(this)){
+                bd.localizacionUsuarios(l);
+                for(Object ll:l){
+                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
+                            ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
                 }
             }else{
                 Snackbar.make(findViewById(android.R.id.content),"Error en la conexión!",Snackbar.LENGTH_SHORT).show();

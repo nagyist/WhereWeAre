@@ -36,9 +36,6 @@ public class LogActivity extends AppCompatActivity {
         bEntrar.setOnClickListener(lisEntrar);
         tDarseDeAlta.setOnClickListener(listDarseDeAlta);
         this.entrar =true;
-        ConexionBD bd= ConexionBD.getInstancia();
-        if(!bd.abrirConexion(this))
-            Snackbar.make(findViewById(android.R.id.content),"Error en la conexión!",Snackbar.LENGTH_SHORT).show();
     }
 
     View.OnClickListener lisEntrar=new View.OnClickListener() {
