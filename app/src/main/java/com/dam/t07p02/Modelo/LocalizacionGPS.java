@@ -1,13 +1,17 @@
 package com.dam.t07p02.Modelo;
 
 import android.app.IntentService;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.dam.t07p02.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -25,6 +29,7 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
     private Location loc;
     private ConexionBD bd;
     private String usuario;
+    private boolean bucaLocalizacion;
 
     private LocationRequest mLocationRequest;
 
@@ -44,9 +49,6 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
                 .build();
         this.locM= (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         bd=ConexionBD.getInstancia();
-        if(bd.isConected())
-            createLocationRequest();
-            getLocation();
     }
 
 
@@ -76,7 +78,7 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         return bestLocation;
     }
 
-    public void getLocation(){
+    private void getLocation(){
         try{
             if(locM.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300, 0, this);
@@ -86,24 +88,25 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         }catch (SecurityException e){e.printStackTrace();}
     }
 
-
-
-
-    @Override
-    public void onDestroy() {
-        try{
-            locM.removeUpdates(this);
-        }catch (SecurityException e){}
-        super.onDestroy();
-    }
-
-
-
     @Override
     protected void onHandleIntent(Intent intent) {
-
         this.usuario=intent.getExtras().getString("usuario");
-        while(true){
+
+        // se obtiene el objeto que gestiona las notificaciones del sistema
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //se crea un objeto que es la notificacion en si
+        NotificationCompat.Builder builder =
+                (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.logo_p_sts)
+                        .setContentTitle(getString(R.string.registrandoSuposicion))
+                        .setContentText(getString(R.string.dRegistrandoSuposicion));
+
+        // se lanza la notificacion con un id en la barra de notificacioness
+        nManager.notify(12345, builder.build());
+        nManager.cancel(12346);
+        bucaLocalizacion=true;
+        while(bucaLocalizacion){
             getLocation();
             if(this.loc!=null){
                 Localizacion l=new Localizacion(usuario,loc.getLatitude(),loc.getLongitude());
@@ -118,6 +121,27 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         }
 
 
+    }
+    @Override
+    public void onDestroy() {
+        try{
+            locM.removeUpdates(this);
+            // se obtiene el objeto que gestiona las notificaciones del sistema
+            NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            //se crea un objeto que es la notificacion en si
+            NotificationCompat.Builder builder =
+                    (NotificationCompat.Builder) new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.logo_p_sts)
+                            .setContentTitle(getString(R.string.pEegistrandoSuposicion))
+                            .setContentText(getString(R.string.dPRegistrandoSuposicion));
+
+            // se lanza la notificacion con un id en la barra de notificacioness
+            nManager.cancel(12345);
+            nManager.notify(12346, builder.build());
+            bucaLocalizacion=false;
+        }catch (SecurityException e){}
+        super.onDestroy();
     }
 
 

@@ -1,7 +1,12 @@
 package com.dam.t07p02;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -12,6 +17,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -30,14 +36,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback{
 
     private Usuario usu;
     private GoogleMap googleMapMA;
     private MapFragment mapFragment;
+    private boolean enviandoGps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -102,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //noinspection SimplifiableIfStatement
         if (id == R.id.mActualizarPosciones) {
             mapFragment.getMapAsync(MainActivity.this);
+            Snackbar.make(findViewById(android.R.id.content),R.string.iMapaActualizado,Snackbar.LENGTH_SHORT).show();
             return true;
         }
 
@@ -120,18 +129,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         else if (id == R.id.mCerrarSesion) {
-
+            usu.setDni("");
+            usu.setPassWord("");
+            Intent i=new Intent(MainActivity.this,LogActivity.class);
+            startActivityForResult(i, 1);
         }
         else if (id == R.id.mActiGPS) {
-            Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
-            i.putExtra("usuario",usu.getDni());
-            startService(i);
+            if(!enviandoGps){
+                Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
+                i.putExtra("usuario",usu.getDni());
+                startService(i);
+                enviandoGps=true;
+            }else{
+                Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
+                stopService(i);
+                enviandoGps=false;
+            }
+
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -159,9 +181,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
                 }
             }else{
-                Snackbar.make(findViewById(android.R.id.content),"Error en la conexión!",Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
             }
 
         }
     }
+
+
 }

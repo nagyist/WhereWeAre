@@ -21,12 +21,17 @@
     <string name="indroduzcaNombreYContrasenia">Debe indroducir un usuario y una contraseña</string>
     <string name="indroduzcaNombre">Debe indroducir un usuario</string>
     <string name="indroduzcaContrasenia">Debe indroducir una contraseña</string>
+    <string name="eRConexion">Error en la conexion</string>
     <string name="errorExisteUsuario">Error: Existe el usuario</string>
     <string name="errorNoExisteUsuario">Error: No Existe el usuario</string>
     <string name="errorPsIncorrecta">Error: contraseña incorrecta</string>
     <string name="altaUsuarioCorrecta">Alta de usuario correcta</string>
     <string name="altaUsuarioInCorrecta">Alta de usuario incorrecta</string>
     <string name="actualizarPosiciones">Actualizar Posiciones</string>
-
+    <string name="registrandoSuposicion">Registrando su posicion</string>
+    <string name="dRegistrandoSuposicion">Enviando datos de su posicion al servidor</string>
+    <string name="pEegistrandoSuposicion">Se ha dejado de registrar su posicion</string>
+    <string name="dPRegistrandoSuposicion">Se ha dejado de enviar informacion de su ubicacion a servidor</string>
+    <string name="iMapaActualizado">Mapa actualizado</string>
 
 </resources>

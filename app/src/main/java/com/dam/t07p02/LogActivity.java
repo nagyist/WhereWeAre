@@ -2,6 +2,7 @@ package com.dam.t07p02;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dam.t07p02.Modelo.ConexionBD;
@@ -23,9 +25,9 @@ public class LogActivity extends AppCompatActivity {
     private TextView tDarseDeAlta;
     private boolean entrar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
 
@@ -51,18 +53,23 @@ public class LogActivity extends AppCompatActivity {
                 else{
                     Usuario u=new Usuario(eTNombre.getText().toString(),eTPassWord.getText().toString());
                     try {
+
                         if(u.existeUsuario()){
                             if(u.passWordCorrecta()){
                                 Intent i=new Intent();
                                 i.putExtra("dni",u.getDni());
-                                setResult(Activity.RESULT_OK,i);
+                                setResult(Activity.RESULT_OK, i);
                                 finish();
                             }
-                            else
+                            else{
                                 Snackbar.make(findViewById(android.R.id.content), R.string.errorPsIncorrecta, Snackbar.LENGTH_SHORT).show();
+                            }
+
                         }
-                        else
+                        else{
                             Snackbar.make(findViewById(android.R.id.content), R.string.errorNoExisteUsuario, Snackbar.LENGTH_SHORT).show();
+                        }
+
 
                     } catch (SQLException e) {
                         Snackbar.make(findViewById(android.R.id.content),e.getMessage(), Snackbar.LENGTH_SHORT).show();
