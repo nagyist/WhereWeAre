@@ -33,8 +33,8 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
     private ConexionBD bd;
     private String usuario;
     private boolean bucaLocalizacion;
-    private int tMin;
-    private int dMin;
+    private String tMin;
+    private String dMin;
 
 
     private LocationRequest mLocationRequest;
@@ -55,8 +55,8 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
                 .build();
         this.locM= (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         bd=ConexionBD.getInstancia();
-        tMin=10;
-        dMin=10;
+        tMin="10";
+        dMin="10";
     }
 
 
@@ -90,10 +90,10 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         try{
             if(locM.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                 SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(this);
-                tMin=pref.getInt("tActualizacion", 10);
-                dMin=pref.getInt("dActualizacion", 10);
+                tMin=pref.getString("tActualizacion", "10");
+                dMin=pref.getString("dActualizacion", "10");
 
-                this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER, tMin, dMin, this);
+                this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER, Integer.parseInt(tMin), Integer.parseInt(dMin), this);
                 this.loc=getLastKnownLocation();
 
             }

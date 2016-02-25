@@ -146,6 +146,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             usu.setPassWord("");
             Intent i=new Intent(MainActivity.this,LogActivity.class);
             startActivityForResult(i, 1);
+            if(!enviandoGps){
+                Intent ii=new Intent(MainActivity.this,LocalizacionGPS.class);
+                i.putExtra("usuario",usu.getDni());
+                startService(ii);
+                enviandoGps=true;
+            }else{
+                Intent ii=new Intent(MainActivity.this,LocalizacionGPS.class);
+                stopService(ii);
+                enviandoGps=false;
+            }
         }
         else if (id == R.id.mActiGPS) {
             if(!enviandoGps){
