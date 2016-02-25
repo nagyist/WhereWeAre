@@ -35,6 +35,9 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
     private boolean bucaLocalizacion;
     private String tMin;
     private String dMin;
+    private double lastLa;
+    private double lastLo;
+    private int diferencia;
 
 
     private LocationRequest mLocationRequest;
@@ -120,9 +123,9 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         bucaLocalizacion=true;
         while(bucaLocalizacion){
             getLocation();
-            if(this.loc!=null){
+            if(this.loc!=null && worth(loc.getLatitude(),loc.getLongitude())){
                 Localizacion l=new Localizacion(usuario,loc.getLatitude(),loc.getLongitude());
-                Log.i("info",usuario+"  La: "+loc.getLatitude()+"    Lo: "+loc.getLongitude());
+                Log.i("info",usuario+"  La: "+lastLa+"    Lo: "+lastLo);
                 l.actualizarLocalizacion();
             }
             try {
@@ -133,6 +136,22 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         }
 
 
+    }
+    private boolean worth(double la,double lo){
+        Log.i("info","  La: "+la+"    Lo: "+lo);
+        if(la-lastLa>diferencia){
+            lastLa=la;
+            lastLo=lo;
+            return true;
+        }
+        if(lo-lastLo>diferencia){
+            lastLa=la;
+            lastLo=lo;
+            return true;
+        }
+        lastLa=la;
+        lastLo=lo;
+        return false;
     }
     @Override
     public void onDestroy() {

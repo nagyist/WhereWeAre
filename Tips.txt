@@ -10,13 +10,8 @@
 
 ** implementar la opcion en las preferencias de cambio de contraseña del usuario logueado****
 
-**cambiar la tasa de actualizaciones al servidor
+**cambiar la tasa de actualizaciones al servidor**
 
 **implementar que compruebe si ha habido un cambio significativo en la posicion antes de hacer una inserts
 
-
-
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos
-
-
-ERROR!! cuando cambias de usuario la contraseña del segundo usuaruo se cambia
