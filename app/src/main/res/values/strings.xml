@@ -44,5 +44,7 @@
     <string name="preferenciasUsuario">Opciones del usuario</string>
     <string name="nTActualizacion">Tasa Actualizacion: </string>
     <string name="nDisActualizacion">Distancia Actualizacion: </string>
+    <string name="diferenciaParaActualizar">Cantidad de grados para actualizar poscion</string>
+    <string name="dDiferenciaParaActualizar">Indica la cantidad de grados a los que se actualiza su posicion en la base de datos</string>
 
 </resources>

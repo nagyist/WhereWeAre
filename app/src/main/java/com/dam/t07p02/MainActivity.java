@@ -1,29 +1,20 @@
 package com.dam.t07p02;
 
 import android.app.Activity;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.Localizacion;
@@ -43,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private GoogleMap googleMapMA;
     private MapFragment mapFragment;
     private boolean enviandoGps;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPostResume() {
         super.onPostResume();
         PreferenceManager.setDefaultValues(this, R.xml.preferencias, false);
-        SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        pref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if(usu!=null){
             if(!usu.getPassWord().equals(pref.getString("uPass", usu.getPassWord())) && !pref.getString("uPass", usu.getPassWord()).equals("")){
@@ -206,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }else{
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
             }
-
+//            googleMapMA.setMapType();
         }
     }
 

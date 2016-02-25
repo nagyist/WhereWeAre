@@ -37,7 +37,8 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
     private String dMin;
     private double lastLa;
     private double lastLo;
-    private int diferencia;
+    private double diferencia;
+    private SharedPreferences pref;
 
 
     private LocationRequest mLocationRequest;
@@ -60,6 +61,9 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         bd=ConexionBD.getInstancia();
         tMin="10";
         dMin="10";
+        pref= PreferenceManager.getDefaultSharedPreferences(this);
+        diferencia=Double.parseDouble(pref.getString("Diferencia", "0.001"));
+
     }
 
 
@@ -138,7 +142,10 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
 
     }
     private boolean worth(double la,double lo){
-        Log.i("info","  La: "+la+"    Lo: "+lo);
+        PreferenceManager.setDefaultValues(this, R.xml.preferencias, false);
+        pref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        diferencia=Double.parseDouble(pref.getString("Diferencia", "0.001"));
+        Log.i("info","  La: "+la+"    Lo: "+lo+"    dif : "+diferencia);
         if(la-lastLa>diferencia){
             lastLa=la;
             lastLo=lo;
