@@ -21,6 +21,7 @@ import com.dam.t07p02.Modelo.Localizacion;
 import com.dam.t07p02.Modelo.LocalizacionGPS;
 import com.dam.t07p02.Modelo.Usuario;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
@@ -54,6 +55,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         Intent i=new Intent(MainActivity.this,LogActivity.class);
         startActivityForResult(i, 1);
+
+//        GoogleMapOptions options = new GoogleMapOptions();
+//        options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
+//                .compassEnabled(false)
+//                .rotateGesturesEnabled(false)
+//                .tiltGesturesEnabled(false);
+//        mapFragment =MapFragment.newInstance(options);
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainActivity.this);
@@ -198,8 +206,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }else{
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
             }
-//            googleMapMA.setMapType();
+            setMapType();
         }
+    }
+    private boolean setMapType(){
+        String tipo=pref.getString("mapType","Normal");
+        if(tipo.equals("None"))
+            googleMapMA.setMapType(GoogleMap.MAP_TYPE_NONE);
+        else if(tipo.equals("Normal"))
+            googleMapMA.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        else if(tipo.equals("Hybrid"))
+            googleMapMA.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        else if(tipo.equals("Satelite"))
+            googleMapMA.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        else if(tipo.equals("Terrain"))
+            googleMapMA.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+
+        return  true;
     }
 
 

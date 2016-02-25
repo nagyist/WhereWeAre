@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/baseDeDatos">
-        <EditTextPreference
-            android:key="pURLBD"
-            android:title="@string/URLBD"
-            android:summary="@string/DURLBD"
-            android:defaultValue="jdbc:mysql://sql2.freesqldatabase.com:3306/"/>
-        <EditTextPreference
-            android:key="pUSerBD"
-            android:title="@string/UserBD"
-            android:summary="@string/DUserBD"
-            android:defaultValue="sql2106998"/>
-        <EditTextPreference
-            android:key="pPSBD"
-            android:title="@string/PassWBD"
-            android:summary="@string/DPassWBD"
-            android:defaultValue="wR7!vS4%"/>
-        </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/preferenciasUsuario">
         <EditTextPreference
             android:key="uPass"
@@ -45,6 +27,33 @@
             android:summary="@string/dDiferenciaParaActualizar"
             android:defaultValue="0.0001"/>
 
+        <ListPreference
+            android:key="mapType"
+            android:title="@string/tipoDeMapa"
+            android:entries="@array/listaMapas"
+            android:entryValues="@array/listaMapas"
+            android:defaultValue="Normal">
+        </ListPreference>
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/otrasOpciones">
+        <PreferenceScreen android:title="@string/baseDeDatos">
+            <EditTextPreference
+                android:key="pURLBD"
+                android:title="@string/URLBD"
+                android:summary="@string/DURLBD"
+                android:defaultValue="jdbc:mysql://sql2.freesqldatabase.com:3306/"/>
+            <EditTextPreference
+                android:key="pUSerBD"
+                android:title="@string/UserBD"
+                android:summary="@string/DUserBD"
+                android:defaultValue="sql2106998"/>
+            <EditTextPreference
+                android:key="pPSBD"
+                android:title="@string/PassWBD"
+                android:summary="@string/DPassWBD"
+                android:defaultValue="wR7!vS4%"/>
+        </PreferenceScreen>
     </PreferenceCategory>
 
 </PreferenceScreen>

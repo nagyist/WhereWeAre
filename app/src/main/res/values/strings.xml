@@ -46,5 +46,13 @@
     <string name="nDisActualizacion">Distancia Actualizacion: </string>
     <string name="diferenciaParaActualizar">Cantidad de grados para actualizar poscion</string>
     <string name="dDiferenciaParaActualizar">Indica la cantidad de grados a los que se actualiza su posicion en la base de datos</string>
-
+    <string name="otrasOpciones">Otras opciones</string>
+    <string name="tipoDeMapa">Tipo de mapa</string>
+    <array name="listaMapas">
+        <item>None</item>
+        <item>Normal</item>
+        <item>Hybrid</item>
+        <item>Satelite</item>
+        <item>Terrain</item>
+    </array>
 </resources>
