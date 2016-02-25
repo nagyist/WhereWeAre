@@ -6,8 +6,12 @@
 
 **hacer que cuando el usuario se ha logeado se carguen los demás usuarios de la base de datos ****
 
-** implementar la lectura de gps y la inserts de las lecturas de gps 
+** implementar la lectura de gps y la inserts de las lecturas de gps **
 
+**implementar que compruebe si ha habido un cambio significativo en la posicion antes de hacer una inserts
 
+** implementar la opcion en las preferencias de cambio de contraseña del usuario logueado
 
-!!!!NO HACE FALTA IMPLEMENTAR BORADCAST RECIBER PARA SABER EL USUARIO, PASARLO POR PARAMETRO EN EL INTENT DE LA LLAMADA AL SERVICIO!!!!!
+**cambiar el zoom de la camara dependiendo de la posicion de los puntos
+
+** cambiar la tasa de actualizaciones al servidor

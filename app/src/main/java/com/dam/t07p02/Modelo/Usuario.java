@@ -14,6 +14,7 @@ public class Usuario {
     private boolean baja;
     private boolean existeUsuario;
     private boolean pSCorrecta;
+    private boolean updateCorrecta;
 
     public Usuario(String dni, String passWord) {
         this.dni = dni;
@@ -129,21 +130,24 @@ public class Usuario {
         }
     }
 
-    public boolean actualizarPosicion(){
-        return true;
+    public boolean cambioDeContraseña(){
+        TCambioDeContraseña tAL=new TCambioDeContraseña();
+        tAL.start();
+        try {
+            tAL.join(90000);
+        } catch (InterruptedException e) {
+            return false;
+        }
+        return updateCorrecta;
     }
-
-    private class TActualizarPosicion extends Thread {
+    private class TCambioDeContraseña extends Thread {
         public void run() {
-            String sql="SELECT contraseña FROM usuarios WHERE dni = '"+dni+"'";
+            String sql="UPDATE `usuarios` SET `contraseña`='"+passWord+"' WHERE dni='"+dni+"'";
+            updateCorrecta=false;
             try {
-                ResultSet rs=st.executeQuery(sql);
-                if(rs.next()){
-                    pSCorrecta= rs.getString(1).equals(passWord);
-                }
-            } catch (SQLException e) {
-                pSCorrecta=false;
-            }
+                st.execute(sql);
+                updateCorrecta=true;
+            } catch (SQLException e) {}
         }
     }
 }

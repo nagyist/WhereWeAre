@@ -58,6 +58,7 @@ public class LogActivity extends AppCompatActivity {
                             if(u.passWordCorrecta()){
                                 Intent i=new Intent();
                                 i.putExtra("dni",u.getDni());
+                                i.putExtra("ps",u.getPassWord());
                                 setResult(Activity.RESULT_OK, i);
                                 finish();
                             }

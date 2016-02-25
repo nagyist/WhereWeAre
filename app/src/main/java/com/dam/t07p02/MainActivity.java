@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -70,7 +71,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onPostResume() {
         super.onPostResume();
         PreferenceManager.setDefaultValues(this, R.xml.preferencias, false);
-        setupMap();
+        SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        if(usu!=null){
+            if(!usu.getPassWord().equals(pref.getString("uPass", usu.getPassWord()))){
+                usu.setPassWord(pref.getString("uPass", ""));
+                if(usu.cambioDeContraseña())
+                    Snackbar.make(findViewById(android.R.id.content),R.string.psActualizada,Snackbar.LENGTH_SHORT).show();
+            }
+            setupMap();
+        }
     }
 
     @Override
@@ -78,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
-                usu=new Usuario(data.getStringExtra("dni"),"");
+                usu=new Usuario(data.getStringExtra("dni"),data.getStringExtra("ps"));
             }
         }
     }

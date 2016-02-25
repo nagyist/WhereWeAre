@@ -33,5 +33,8 @@
     <string name="pEegistrandoSuposicion">Se ha dejado de registrar su posicion</string>
     <string name="dPRegistrandoSuposicion">Se ha dejado de enviar informacion de su ubicacion a servidor</string>
     <string name="iMapaActualizado">Mapa actualizado</string>
+    <string name="cambioPs">Cambiar contraseña del usuario</string>
+    <string name="dCambioPs">Establece una nueva contraseña para su usuario</string>
+    <string name="psActualizada">Contraseña Cambiada</string>
 
 </resources>

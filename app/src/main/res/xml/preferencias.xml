@@ -16,5 +16,11 @@
             android:title="@string/PassWBD"
             android:summary="@string/DPassWBD"
             android:defaultValue="wR7!vS4%"/>
+
+        <EditTextPreference
+            android:key="uPass"
+            android:title="@string/cambioPs"
+            android:summary="@string/dCambioPs"
+            android:defaultValue="" />
     </PreferenceCategory>
 </PreferenceScreen>
