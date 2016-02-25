@@ -74,10 +74,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         if(usu!=null){
-            if(!usu.getPassWord().equals(pref.getString("uPass", usu.getPassWord()))){
+            if(!usu.getPassWord().equals(pref.getString("uPass", usu.getPassWord())) && !pref.getString("uPass", usu.getPassWord()).equals("")){
                 usu.setPassWord(pref.getString("uPass", ""));
-                if(usu.cambioDeContraseña())
-                    Snackbar.make(findViewById(android.R.id.content),R.string.psActualizada,Snackbar.LENGTH_SHORT).show();
+                if(usu.cambioDeContraseña()){
+                    Snackbar.make(findViewById(android.R.id.content), R.string.psActualizada, Snackbar.LENGTH_SHORT).show();
+                    if(pref.edit().putString("uPass","").commit())
+                        ;
+                }
             }
             setupMap();
         }

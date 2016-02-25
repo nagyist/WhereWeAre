@@ -8,10 +8,15 @@
 
 ** implementar la lectura de gps y la inserts de las lecturas de gps **
 
+** implementar la opcion en las preferencias de cambio de contraseña del usuario logueado****
+
+**cambiar la tasa de actualizaciones al servidor
+
 **implementar que compruebe si ha habido un cambio significativo en la posicion antes de hacer una inserts
 
-** implementar la opcion en las preferencias de cambio de contraseña del usuario logueado
+
 
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos
 
-** cambiar la tasa de actualizaciones al servidor
+
+ERROR!! cuando cambias de usuario la contraseña del segundo usuaruo se cambia

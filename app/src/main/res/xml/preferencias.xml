@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Almacenamiento">
+    <PreferenceCategory android:title="@string/baseDeDatos">
         <EditTextPreference
             android:key="pURLBD"
             android:title="@string/URLBD"
@@ -16,11 +16,28 @@
             android:title="@string/PassWBD"
             android:summary="@string/DPassWBD"
             android:defaultValue="wR7!vS4%"/>
+        </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/preferenciasUsuario">
         <EditTextPreference
             android:key="uPass"
             android:title="@string/cambioPs"
             android:summary="@string/dCambioPs"
-            android:defaultValue="" />
+            android:defaultValue="None" />
+
+        <EditTextPreference
+            android:numeric="integer"
+            android:key="tActualizacion"
+            android:title="@string/tActualizacion"
+            android:summary="@string/dTActualizacion"
+            android:defaultValue=""/>
+
+        <EditTextPreference
+            android:numeric="integer"
+            android:key="dActualizacion"
+            android:title="@string/distActualiacion"
+            android:summary="@string/dDistActualiacion"
+            android:defaultValue=""/>
     </PreferenceCategory>
+
 </PreferenceScreen>

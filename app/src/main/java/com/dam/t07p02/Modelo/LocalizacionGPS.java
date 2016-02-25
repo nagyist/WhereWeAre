@@ -4,10 +4,13 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -30,6 +33,9 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
     private ConexionBD bd;
     private String usuario;
     private boolean bucaLocalizacion;
+    private int tMin;
+    private int dMin;
+
 
     private LocationRequest mLocationRequest;
 
@@ -49,6 +55,8 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
                 .build();
         this.locM= (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         bd=ConexionBD.getInstancia();
+        tMin=10;
+        dMin=10;
     }
 
 
@@ -81,7 +89,11 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
     private void getLocation(){
         try{
             if(locM.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300, 0, this);
+                SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(this);
+                tMin=pref.getInt("tActualizacion", 10);
+                dMin=pref.getInt("dActualizacion", 10);
+
+                this.locM.requestLocationUpdates(LocationManager.GPS_PROVIDER, tMin, dMin, this);
                 this.loc=getLastKnownLocation();
 
             }
@@ -98,9 +110,9 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
         //se crea un objeto que es la notificacion en si
         NotificationCompat.Builder builder =
                 (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.logo_p_sts)
+                        .setSmallIcon(R.drawable.logo_p)
                         .setContentTitle(getString(R.string.registrandoSuposicion))
-                        .setContentText(getString(R.string.dRegistrandoSuposicion));
+                        .setGroup(getString(R.string.dRegistrandoSuposicion)+"  "+getString(R.string.nTActualizacion)+tMin+"    "+getString(R.string.nDisActualizacion)+dMin);
 
         // se lanza la notificacion con un id en la barra de notificacioness
         nManager.notify(12345, builder.build());
@@ -132,7 +144,7 @@ public class LocalizacionGPS extends IntentService implements LocationListener, 
             //se crea un objeto que es la notificacion en si
             NotificationCompat.Builder builder =
                     (NotificationCompat.Builder) new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.logo_p_sts)
+                            .setSmallIcon(R.drawable.ic_stat_logo)
                             .setContentTitle(getString(R.string.pEegistrandoSuposicion))
                             .setContentText(getString(R.string.dPRegistrandoSuposicion));
 

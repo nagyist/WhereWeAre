@@ -36,5 +36,13 @@
     <string name="cambioPs">Cambiar contraseña del usuario</string>
     <string name="dCambioPs">Establece una nueva contraseña para su usuario</string>
     <string name="psActualizada">Contraseña Cambiada</string>
+    <string name="tActualizacion">Tasa de actualizacion</string>
+    <string name="dTActualizacion">Tiempo entre actualizacion y actualiacion</string>
+    <string name="distActualiacion">Distancia actualizacion</string>
+    <string name="dDistActualiacion">Indica la cantidad de metros entre cada actualizacion</string>
+    <string name="baseDeDatos">Base de datos</string>
+    <string name="preferenciasUsuario">Opciones del usuario</string>
+    <string name="nTActualizacion">Tasa Actualizacion: </string>
+    <string name="nDisActualizacion">Distancia Actualizacion: </string>
 
 </resources>
