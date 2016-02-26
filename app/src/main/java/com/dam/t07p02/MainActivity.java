@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,11 +21,13 @@ import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.Localizacion;
 import com.dam.t07p02.Modelo.LocalizacionGPS;
 import com.dam.t07p02.Modelo.Usuario;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -55,14 +58,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         Intent i=new Intent(MainActivity.this,LogActivity.class);
         startActivityForResult(i, 1);
-
-//        GoogleMapOptions options = new GoogleMapOptions();
-//        options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
-//                .compassEnabled(false)
-//                .rotateGesturesEnabled(false)
-//                .tiltGesturesEnabled(false);
-//        mapFragment =MapFragment.newInstance(options);
-
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainActivity.this);
     }
@@ -206,10 +201,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }else{
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
             }
+            cuadrarPuntos(l);
             setMapType();
         }
     }
-    private boolean setMapType(){
+
+    private void cuadrarPuntos(ArrayList l){
+        double minLat=999999999;
+        double minLong=999999999;
+        double maxLat=-999999999;
+        double maxLong=-999999999;
+
+
+        for(Object ll:l){
+
+            if(((Localizacion)ll).getLatitud()<minLat)
+                minLat=((Localizacion)ll).getLatitud();
+            if(((Localizacion)ll).getLongitud()<minLong)
+                minLong=((Localizacion)ll).getLongitud();
+
+            if(((Localizacion)ll).getLatitud()>maxLat)
+                maxLat=((Localizacion)ll).getLatitud();
+            if(((Localizacion)ll).getLongitud()>maxLong)
+                maxLong=((Localizacion)ll).getLongitud();
+        }
+        Log.i("info", "LatMin "+minLat+"    LongMin "+minLong+" latMax  "+maxLat+"  LongMax "+maxLong);
+        LatLngBounds ZONA = new LatLngBounds(new LatLng(minLong,minLat),new LatLng(maxLong,maxLat));
+
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.12); // offset from edges of the map 12% of screen
+
+        googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(ZONA, width,height,padding));
+
+
+    }
+
+
+    private void setMapType(){
         String tipo=pref.getString("mapType","Normal");
         if(tipo.equals("None"))
             googleMapMA.setMapType(GoogleMap.MAP_TYPE_NONE);
@@ -221,8 +250,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             googleMapMA.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         else if(tipo.equals("Terrain"))
             googleMapMA.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-
-        return  true;
     }
 
 
