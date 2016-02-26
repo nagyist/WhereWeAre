@@ -14,4 +14,6 @@
 
 **implementar que compruebe si ha habido un cambio significativo en la posicion antes de hacer una inserts**
 
+** implementar la seleccion del tipo de mapa***
+
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos

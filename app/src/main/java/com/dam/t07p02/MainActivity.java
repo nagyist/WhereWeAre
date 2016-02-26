@@ -23,7 +23,6 @@ import com.dam.t07p02.Modelo.LocalizacionGPS;
 import com.dam.t07p02.Modelo.Usuario;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;

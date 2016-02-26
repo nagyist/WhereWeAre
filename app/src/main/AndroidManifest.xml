@@ -38,7 +38,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCS3-c0Z74Obusqp4f-FEUfhr_crOGSwu4"/>
+            android:value="AIzaSyCUisUcaMMPpXsV4LXeDDEfBWJ7H9wk8VI"/>
 
         <service android:name=".Modelo.LocalizacionGPS" />
     </application>
