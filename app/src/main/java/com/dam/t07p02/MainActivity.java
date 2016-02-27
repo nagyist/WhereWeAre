@@ -140,13 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             usu.setPassWord("");
             Intent i=new Intent(MainActivity.this,LogActivity.class);
             startActivityForResult(i, 1);
-            if(!enviandoGps){
+            if(enviandoGps){
                 Intent ii=new Intent(MainActivity.this,LocalizacionGPS.class);
                 i.putExtra("usuario",usu.getDni());
-                startService(ii);
-                enviandoGps=true;
-            }else{
-                Intent ii=new Intent(MainActivity.this,LocalizacionGPS.class);
                 stopService(ii);
                 enviandoGps=false;
             }
@@ -200,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }else{
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
             }
-            cuadrarPuntos(l);
+//            cuadrarPuntos(l);
             setMapType();
         }
     }

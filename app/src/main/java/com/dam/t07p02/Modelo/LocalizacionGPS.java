@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationListener;
+
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,6 +16,7 @@ import android.util.Log;
 import com.dam.t07p02.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
@@ -56,6 +57,7 @@ public class LocalizacionGPS extends IntentService implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
+        gAC.connect();
         this.locM= (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         bd=ConexionBD.getInstancia();
         tMin="10";
@@ -73,7 +75,8 @@ public class LocalizacionGPS extends IntentService implements
         bucaLocalizacion=true;
         while(bucaLocalizacion){
 
-            if (lastLoc.distanceTo(currentLoc) > diferencia) {
+//            if (lastLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
+            if (lastLoc!=null) {
                 Localizacion l=new Localizacion(usuario, lastLoc.getLatitude(), lastLoc.getLongitude());
                 Log.i("info",usuario+"  La: "+lastLa+"    Lo: "+lastLo);
                 l.actualizarLocalizacion();
@@ -102,24 +105,6 @@ public class LocalizacionGPS extends IntentService implements
         nManager.cancel(12346);
     }
 
-    private Location getLastKnownLocation() {
-        locM = (LocationManager)getApplicationContext().
-                getSystemService(LOCATION_SERVICE);
-        List<String> providers = locM.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers) {
-            Location l = locM.getLastKnownLocation(provider);
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        return bestLocation;
-    }
-
     private boolean worth(double la,double lo){
         PreferenceManager.setDefaultValues(this, R.xml.preferencias, false);
         pref= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -142,26 +127,17 @@ public class LocalizacionGPS extends IntentService implements
     @Override
     public void onDestroy() {
         try{
-            locM.removeUpdates(this);
-            lanzarNotifParada();
-            bucaLocalizacion=false;
             if (gAC.isConnected()) {
                 stopLocationUpdates();
                 gAC.disconnect();
             }
+            lanzarNotifParada();
+            bucaLocalizacion=false;
             bd.cerrarConexion();
             super.onDestroy();
         }catch (SecurityException e){}
         super.onDestroy();
     }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-             gAC, (com.google.android.gms.location.LocationListener) this);
-        if (gAC.isConnected())
-            gAC.disconnect();
-    }
-
     private void lanzarNotifParada(){
         // se obtiene el objeto que gestiona las notificaciones del sistema
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -178,21 +154,11 @@ public class LocalizacionGPS extends IntentService implements
         nManager.notify(12346, builder.build());
     }
 
-
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(
+                gAC, (com.google.android.gms.location.LocationListener) this);
+        if (gAC.isConnected())
+            gAC.disconnect();
     }
 
     @Override
@@ -203,7 +169,7 @@ public class LocalizacionGPS extends IntentService implements
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         try {
-            LocationServices.FusedLocationApi.requestLocationUpdates(gAC, mLocationRequest, (com.google.android.gms.location.LocationListener) this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(gAC, mLocationRequest, this);
             lastLoc = LocationServices.FusedLocationApi.getLastLocation(gAC);
         } catch (SecurityException e ){
             e.printStackTrace();
