@@ -40,7 +40,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC-tCXy52yGYTyU62O1E5lJjg4n2mvW8sE"/>
 
-        <service android:name=".Modelo.LocalizacionGPS" />
+        <service android:name=".Modelo.GpsIntentService" />
     </application>
 
 </manifest>

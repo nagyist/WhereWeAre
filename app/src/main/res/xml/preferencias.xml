@@ -12,20 +12,14 @@
             android:key="tActualizacion"
             android:title="@string/tActualizacion"
             android:summary="@string/dTActualizacion"
-            android:defaultValue=""/>
+            android:defaultValue="0.0"/>
 
-        <EditTextPreference
-            android:numeric="integer"
-            android:key="dActualizacion"
-            android:title="@string/distActualiacion"
-            android:summary="@string/dDistActualiacion"
-            android:defaultValue=""/>
         <EditTextPreference
             android:numeric="decimal"
             android:key="Diferencia"
             android:title="@string/diferenciaParaActualizar"
             android:summary="@string/dDiferenciaParaActualizar"
-            android:defaultValue="0.0001"/>
+            android:defaultValue="0.0"/>
 
         <ListPreference
             android:key="mapType"

@@ -18,8 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.dam.t07p02.Modelo.ConexionBD;
+import com.dam.t07p02.Modelo.GpsIntentService;
 import com.dam.t07p02.Modelo.Localizacion;
-import com.dam.t07p02.Modelo.LocalizacionGPS;
 import com.dam.t07p02.Modelo.Usuario;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent i=new Intent(MainActivity.this,LogActivity.class);
             startActivityForResult(i, 1);
             if(enviandoGps){
-                Intent ii=new Intent(MainActivity.this,LocalizacionGPS.class);
+                Intent ii=new Intent(MainActivity.this,GpsIntentService.class);
                 i.putExtra("usuario",usu.getDni());
                 stopService(ii);
                 enviandoGps=false;
@@ -149,12 +149,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         else if (id == R.id.mActiGPS) {
             if(!enviandoGps){
-                Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
+                Intent i=new Intent(MainActivity.this,GpsIntentService.class);
                 i.putExtra("usuario",usu.getDni());
                 startService(i);
                 enviandoGps=true;
             }else{
-                Intent i=new Intent(MainActivity.this,LocalizacionGPS.class);
+                Intent i=new Intent(MainActivity.this,GpsIntentService.class);
                 stopService(i);
                 enviandoGps=false;
             }
@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             else if(bd.abrirConexion(this)){
                 bd.localizacionUsuarios(l);
                 for(Object ll:l){
+                    if(((Localizacion)ll).getLongitud()!=0 && ((Localizacion)ll).getLatitud()!=0)
                     googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
                             ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
                 }

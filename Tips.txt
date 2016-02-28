@@ -16,4 +16,6 @@
 
 ** implementar la seleccion del tipo de mapa***
 
+** usar el gps como juan antonio**
+
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos
