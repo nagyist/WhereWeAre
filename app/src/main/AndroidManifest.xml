@@ -38,7 +38,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_GOOGLE_API_KEY"/>
+            android:value="@string/apiKey"/>
         <!--https://developers.google.com/maps/documentation/android-api/signup-->
 
         <service android:name=".Modelo.GpsIntentService" />
