@@ -3,12 +3,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.dam.t07p02.R;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import static android.provider.Settings.System.getString;
 
 
 public class ConexionBD {
@@ -86,9 +90,10 @@ public class ConexionBD {
     {
         public void run() {
             SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(context);
-            String user=pref.getString("pUSerBD", "sql2106998");
-            String password=pref.getString("pPSBD", "wR7!vS4%");
-            String url= pref.getString("pURLBD", "jdbc:mysql://sql2.freesqldatabase.com:3306/");
+
+            String user=pref.getString("pUSerBD","");
+            String password=pref.getString("pPSBD","");
+            String url= pref.getString("pURLBD","");
             url+=user;
             try {
                 Class.forName("com.mysql.jdbc.Driver");
