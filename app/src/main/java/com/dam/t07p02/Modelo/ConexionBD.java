@@ -65,20 +65,22 @@ public class ConexionBD {
         String sql="";
         ResultSet rs=null;
         try {
-            sql="SELECT count(*) FROM usuarios;";
+            sql="SELECT count(*) FROM iusuarios;";
             rs=st.executeQuery(sql);
         } catch (Exception e1) {
             try {
-                sql="CREATE TABLE usuarios ("+
-                        "dni CHAR(9) NOT NULL,"+
-                        "contraseña VARCHAR(100) NOT NULL,"+
-                        "CONSTRAINT pk_usuarios PRIMARY KEY (dni));";
+                sql="CREATE TABLE iusuarios (\n" +
+                        "\t\tdni CHAR(9) NOT NULL,\n" +
+                        "\t\tcontraseña VARCHAR(100) NOT NULL,\n" +
+                        "\t\tCONSTRAINT pk_usuarios PRIMARY KEY (dni))";
                 st.executeUpdate(sql);
-                sql="CREATE TABLE localizacion ("+
-                        "dni CHAR(9) NOT NULL,"+
-                        "latitud FLOAT NOT NULL,"+
-                        "longitud FLOAT NOT NULL,"+
-                        "CONSTRAINT pk_localizacion PRIMARY KEY (dni));";
+                sql="CREATE TABLE ilocalizacion (\n" +
+                        "\tdni CHAR(9) NOT NULL,\n" +
+                        "\tlatitud FLOAT NOT NULL,\n" +
+                        "\tlongitud FLOAT NOT NULL,\n" +
+                        "\tfecha_hora datetime NOT NULL,\n" +
+                        "\tCONSTRAINT PRIMARY KEY (dni,fecha_hora),\n" +
+                        "\tCONSTRAINT FK_IUSUARIOS FOREIGN KEY(dni) REFERENCES iusuarios(dni))";
                 st.executeUpdate(sql);
             } catch (Exception e2) {
                 throw new SQLException("Error crearTablas()!!",e2);
@@ -151,7 +153,7 @@ public class ConexionBD {
     {
         public void run() {
             String sql="SELECT * \n" +
-                        "FROM  `localizacion` ";
+                        "FROM  `ilocalizacion` ";
             consultaCorrecta=false;
             try {
                 ResultSet rs=st.executeQuery(sql);

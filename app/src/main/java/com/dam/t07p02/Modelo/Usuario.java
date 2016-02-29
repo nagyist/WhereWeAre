@@ -50,8 +50,8 @@ public class Usuario {
     private class TAltaUsuario extends Thread {
         public void run() {
             alta =true;
-            String sql="insert into usuarios values('"+dni+"','"+passWord+"')";
-            String sql2="insert into localizacion values('"+dni+"',0,0)";
+            String sql="insert into iusuarios values('"+dni+"','"+passWord+"')";
+            String sql2="insert into ilocalizacion values('"+dni+"',0,0,now())";
             try {
                 st.execute(sql);
                 st.execute(sql2);
@@ -73,7 +73,7 @@ public class Usuario {
     private class TBajaUsuario extends Thread {
         public void run() {
             baja=true;
-            String sql="delete from usuarios where dni='"+dni+"'";
+            String sql="delete from iusuarios where dni='"+dni+"'";
             try {
                 st.execute(sql);
             } catch (SQLException e) {
@@ -93,7 +93,7 @@ public class Usuario {
     private class TExisteUsuario extends Thread {
         public void run() {
             String sql="SELECT COUNT( * )\n" +
-                        "FROM usuarios\n" +
+                        "FROM iusuarios\n" +
                         "WHERE dni = '"+dni+"'";
             ResultSet rs= null;
             try {
@@ -118,7 +118,7 @@ public class Usuario {
     }
     private class TPassWordCorrecta extends Thread {
         public void run() {
-            String sql="SELECT contraseña FROM usuarios WHERE dni = '"+dni+"'";
+            String sql="SELECT contraseña FROM iusuarios WHERE dni = '"+dni+"'";
             try {
                 ResultSet rs=st.executeQuery(sql);
                 if(rs.next()){
@@ -142,7 +142,7 @@ public class Usuario {
     }
     private class TCambioDeContraseña extends Thread {
         public void run() {
-            String sql="UPDATE `usuarios` SET `contraseña`='"+passWord+"' WHERE dni='"+dni+"'";
+            String sql="UPDATE `iusuarios` SET `contraseña`='"+passWord+"' WHERE dni='"+dni+"'";
             updateCorrecta=false;
             try {
                 st.execute(sql);

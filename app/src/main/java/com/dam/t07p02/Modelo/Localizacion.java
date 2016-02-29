@@ -1,7 +1,5 @@
 package com.dam.t07p02.Modelo;
 
-import android.net.NetworkInfo;
-
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -34,7 +32,7 @@ public class Localizacion {
     private class Thread_actualizarLoc extends Thread
     {
         public void run() {
-            String sql="UPDATE `localizacion` SET `latitud`="+latitud+",`longitud`="+longitud+" WHERE dni='"+dni+"'";
+            String sql="INSERT INTO `ilocalizacion`(`dni`, `latitud`, `longitud`, `fecha_hora`) VALUES ('"+dni+"',"+latitud+","+longitud+",now())";
             updateCorrecta=false;
             try {
                 st.execute(sql);

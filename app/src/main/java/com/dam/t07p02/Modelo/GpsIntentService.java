@@ -63,8 +63,8 @@ public class GpsIntentService extends IntentService implements
                 mLocationRequest.setInterval((long)(minutos * 60 * 1000));
                 mLocationRequest.setFastestInterval((long)(minutos * 60 * 1000));
             }
-            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
-//            if (lastLoc!=null && currentLoc!=null) {
+//            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
+            if (lastLoc!=null && currentLoc!=null) {
                 new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude()).actualizarLocalizacion();
                 Log.i("infoooo", "LAST_LOC   " + usuario + "  La: " + lastLoc.getLatitude() + "          Lo: " + lastLoc.getLongitude());
                 Log.i("infoooo", "CURRENT_LOC" + usuario + "  La: " + currentLoc.getLatitude() + "       Lo: " + currentLoc.getLongitude());
