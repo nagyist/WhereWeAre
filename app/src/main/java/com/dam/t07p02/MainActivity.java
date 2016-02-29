@@ -193,26 +193,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             googleMapMA.clear();
             ArrayList l=new ArrayList();
             ConexionBD bd= ConexionBD.getInstancia();
-            if(bd.isConected()){
-                bd.localizacionUsuarios(l);
-                for(Object ll:l){
-                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
-                            ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
-                }
+
+            if(!bd.isConected())
+                bd.abrirConexion(this);
+
+            bd.localizacionUsuarios(l);
+            for(Object ll:l){
+                googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion) ll).getLatitud(), ((Localizacion) ll).getLongitud()))
+                        .title(String.valueOf(((Localizacion) ll).getDni()+" - "+((Localizacion) ll).getFechaHora().toString())));
             }
-            else if(bd.abrirConexion(this)){
-                bd.localizacionUsuarios(l);
-                for(Object ll:l){
-                    if(((Localizacion)ll).getLongitud()!=0 && ((Localizacion)ll).getLatitud()!=0)
-                    googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion)ll).getLatitud(),
-                            ((Localizacion)ll).getLongitud())).title(((Localizacion)ll).getDni()));
-                }
-            }else{
+            }
+            else
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
-            }
 //            cuadrarPuntos(l);
             setMapType();
-        }
     }
 
 

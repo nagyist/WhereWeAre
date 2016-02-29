@@ -2,18 +2,21 @@ package com.dam.t07p02.Modelo;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 public class Localizacion {
     private String dni;
     private double latitud;
     private double longitud;
+    private Date fechaHora;
     private boolean updateCorrecta;
     private Statement st;
 
-    public Localizacion(String dni, double latitud, double longitud) {
-        this.dni = dni;
-        this.latitud = latitud;
+    public Localizacion(String dni,double longitud, double latitud , Date fechaHora) {
         this.longitud = longitud;
+        this.dni = dni;
+        this.fechaHora = fechaHora;
+        this.latitud = latitud;
         this.st =ConexionBD.getSt();
     }
 
@@ -27,6 +30,15 @@ public class Localizacion {
 
     public double getLongitud() {
         return longitud;
+    }
+
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
+    public Date getFechaHora() {
+
+        return fechaHora;
     }
 
     private class Thread_actualizarLoc extends Thread

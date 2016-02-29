@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class GpsIntentService extends IntentService implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -63,9 +64,11 @@ public class GpsIntentService extends IntentService implements
                 mLocationRequest.setInterval((long)(minutos * 60 * 1000));
                 mLocationRequest.setFastestInterval((long)(minutos * 60 * 1000));
             }
+            Random r=new Random();
 //            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
             if (lastLoc!=null && currentLoc!=null) {
-                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude()).actualizarLocalizacion();
+                new Localizacion(usuario, r.nextInt(10), r.nextInt(10),new Date()).actualizarLocalizacion();
+//                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude(),new Date()).actualizarLocalizacion();
                 Log.i("infoooo", "LAST_LOC   " + usuario + "  La: " + lastLoc.getLatitude() + "          Lo: " + lastLoc.getLongitude());
                 Log.i("infoooo", "CURRENT_LOC" + usuario + "  La: " + currentLoc.getLatitude() + "       Lo: " + currentLoc.getLongitude());
             }
