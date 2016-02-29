@@ -65,7 +65,7 @@ public class Usuario {
         TBajaUsuario t=new TBajaUsuario();
         t.start();
         try {
-            t.join(10000);
+            t.join();
         }
         catch (InterruptedException e) {return false;}
         return baja;
@@ -85,7 +85,7 @@ public class Usuario {
         TExisteUsuario t=new TExisteUsuario();
         t.start();
         try {
-            t.join(90000);
+            t.join();
         }
         catch (InterruptedException e) {return false;}
         return existeUsuario;
@@ -111,7 +111,7 @@ public class Usuario {
         TPassWordCorrecta t=new TPassWordCorrecta();
         t.start();
         try {
-            t.join(90000);
+            t.join();
         }
         catch (InterruptedException e) {return false;}
         return pSCorrecta;
@@ -134,7 +134,7 @@ public class Usuario {
         TCambioDeContraseña tAL=new TCambioDeContraseña();
         tAL.start();
         try {
-            tAL.join(90000);
+            tAL.join();
         } catch (InterruptedException e) {
             return false;
         }

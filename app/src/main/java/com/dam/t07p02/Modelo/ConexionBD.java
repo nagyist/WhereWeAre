@@ -107,7 +107,7 @@ public class ConexionBD {
         Thread_abrirConexionMySQL tac=new Thread_abrirConexionMySQL();
         tac.start();
         try {
-            tac.join(10000);
+            tac.join();
         } catch (InterruptedException e) {
             return false;
         }
@@ -133,7 +133,7 @@ public class ConexionBD {
         Thread_cerrarConexionMySQL tcc=new Thread_cerrarConexionMySQL();
         tcc.start();
         try {
-            tcc.join(10000);
+            tcc.join();
         } catch (InterruptedException e) {
             return false;
         }
@@ -164,7 +164,7 @@ public class ConexionBD {
         Thread_localizacionUsuarios t=new Thread_localizacionUsuarios();
         t.start();
         try {
-            t.join(90000);
+            t.join();
         } catch (InterruptedException e) {
             return false;
         }

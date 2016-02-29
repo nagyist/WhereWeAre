@@ -24,18 +24,14 @@ public class GpsIntentService extends IntentService implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleApiClient gAC;
-    private LocationManager locM;
-    private Location lastLoc,currentLoc;
-    private ConexionBD bd;
+    private Location currentLoc;
+    private Location lastLoc;
     private String usuario;
     private boolean bucaLocalizacion;
-    private double lastLa;
-    private double lastLo;
     private Double minutos;
     private double diferencia;
     private SharedPreferences pref;
     private LocationRequest mLocationRequest;
-    private String lastUpdateTime;
 
     public GpsIntentService() {
         super("GpsIntentService");
@@ -50,8 +46,6 @@ public class GpsIntentService extends IntentService implements
                 .addApi(LocationServices.API)
                 .build();
         gAC.connect();
-        this.locM= (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-        bd=ConexionBD.getInstancia();
         pref= PreferenceManager.getDefaultSharedPreferences(this);
     }
 
@@ -62,14 +56,18 @@ public class GpsIntentService extends IntentService implements
 
         bucaLocalizacion=true;
         while(bucaLocalizacion){
+
             diferencia=Double.parseDouble(pref.getString("Diferencia", "0.0"));
             minutos=Double.parseDouble(pref.getString("tActualizacion", "0.0"));
-//            if (lastLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
-            if (lastLoc!=null && currentLoc!=null) {
-                Localizacion l=new Localizacion(usuario, lastLoc.getLatitude(), lastLoc.getLongitude());
-                Log.i("infoooo","LAST_LOC   "+usuario+"  La: "+lastLoc.getLatitude()+"          Lo: "+lastLoc.getLongitude());
-                Log.i("infoooo","CURRENT_LOC"+usuario+"  La: "+currentLoc.getLatitude()+"       Lo: "+currentLoc.getLongitude());
-                l.actualizarLocalizacion();
+            if(mLocationRequest!=null){
+                mLocationRequest.setInterval((long)(minutos * 60 * 1000));
+                mLocationRequest.setFastestInterval((long)(minutos * 60 * 1000));
+            }
+            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
+//            if (lastLoc!=null && currentLoc!=null) {
+                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude()).actualizarLocalizacion();
+                Log.i("infoooo", "LAST_LOC   " + usuario + "  La: " + lastLoc.getLatitude() + "          Lo: " + lastLoc.getLongitude());
+                Log.i("infoooo", "CURRENT_LOC" + usuario + "  La: " + currentLoc.getLatitude() + "       Lo: " + currentLoc.getLongitude());
             }
             try {
                 Thread.sleep((long) (minutos*60*1000));
@@ -101,7 +99,6 @@ public class GpsIntentService extends IntentService implements
             }
             lanzarNotifParada();
             bucaLocalizacion=false;
-            bd.cerrarConexion();
             super.onDestroy();
         }catch (SecurityException e){}
         super.onDestroy();
@@ -142,10 +139,8 @@ public class GpsIntentService extends IntentService implements
     @Override
     public void onLocationChanged(Location location) {
         if(location!=null){
+            lastLoc=currentLoc;
             currentLoc=location;
-            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-            Date now = new Date();
-            lastUpdateTime= sdfDate.format(now);
         }
     }
 

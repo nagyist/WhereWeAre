@@ -1,6 +1,8 @@
 package com.dam.t07p02;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -16,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.GpsIntentService;
 import com.dam.t07p02.Modelo.Localizacion;
@@ -59,6 +60,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivityForResult(i, 1);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainActivity.this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent i=new Intent(MainActivity.this,GpsIntentService.class);
+        stopService(i);
+        enviandoGps=false;
+        ConexionBD.getInstancia().cerrarConexion();
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.cancel(12345);
+        nManager.cancel(12346);
+        super.onDestroy();
     }
 
     @Override
@@ -201,6 +214,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             setMapType();
         }
     }
+
+
 
     private void cuadrarPuntos(ArrayList l){
         double minLat=999999999;

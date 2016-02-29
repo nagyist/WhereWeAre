@@ -47,7 +47,7 @@ public class Localizacion {
         Thread_actualizarLoc tAL=new Thread_actualizarLoc();
         tAL.start();
         try {
-            tAL.join(90000);
+            tAL.join();
         } catch (InterruptedException e) {
             return false;
         }

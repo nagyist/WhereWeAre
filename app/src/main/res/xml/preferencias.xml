@@ -5,7 +5,7 @@
             android:key="uPass"
             android:title="@string/cambioPs"
             android:summary="@string/dCambioPs"
-            android:defaultValue="None" />
+            android:defaultValue="" />
 
         <EditTextPreference
             android:numeric="integer"

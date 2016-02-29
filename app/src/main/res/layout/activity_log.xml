@@ -44,7 +44,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="0.9">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -58,7 +58,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/nombre"
                     android:id="@+id/tNombre"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -66,7 +67,8 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="@string/passWord"
                     android:id="@+id/tPassWord"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:gravity="center" />
 
             </LinearLayout>
 
