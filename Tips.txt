@@ -22,3 +22,10 @@
 
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos
 
+** change the methot setUpMap in orde to print the trace of each user in time
+
+** add a option on preferences to change the view in the map (trace/lasposition know)
+
+** check preferences to fix any possible bug
+
+
