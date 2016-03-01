@@ -67,8 +67,8 @@ public class GpsIntentService extends IntentService implements
             Random r=new Random();
 //            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
             if (lastLoc!=null && currentLoc!=null) {
-                new Localizacion(usuario, r.nextInt(10), r.nextInt(10),new Date()).actualizarLocalizacion();
-//                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude(),new Date()).actualizarLocalizacion();
+//                new Localizacion(usuario, r.nextInt(10)-15, r.nextInt(10)-15,new Date()).actualizarLocalizacion();
+                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude(),new Date()).actualizarLocalizacion();
                 Log.i("infoooo", "LAST_LOC   " + usuario + "  La: " + lastLoc.getLatitude() + "          Lo: " + lastLoc.getLongitude());
                 Log.i("infoooo", "CURRENT_LOC" + usuario + "  La: " + currentLoc.getLatitude() + "       Lo: " + currentLoc.getLongitude());
             }

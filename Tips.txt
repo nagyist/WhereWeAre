@@ -18,6 +18,7 @@
 
 ** usar el gps como juan antonio**
 
+** implementar el la rama de implementaciones un nuveo modelo relacional donde se puedan hacer trazas**
+
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos
 
-** implementar el la rama de implementaciones un nuveo modelo relacional donde se puedan hacer trazas

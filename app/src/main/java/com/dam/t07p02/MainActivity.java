@@ -189,9 +189,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setupMap() {
+        ArrayList l=new ArrayList();
         if (googleMapMA != null )  {
             googleMapMA.clear();
-            ArrayList l=new ArrayList();
             ConexionBD bd= ConexionBD.getInstancia();
 
             if(!bd.isConected())
@@ -205,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
-//            cuadrarPuntos(l);
+            cuadrarPuntos(l);
             setMapType();
     }
 
@@ -230,16 +230,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(((Localizacion)ll).getLongitud()>maxLong)
                 maxLong=((Localizacion)ll).getLongitud();
         }
-        Log.i("info", "LatMin "+minLat+"    LongMin "+minLong+" latMax  "+maxLat+"  LongMax "+maxLong);
-        LatLngBounds ZONA = new LatLngBounds(new LatLng(minLong,minLat),new LatLng(maxLong,maxLat));
+        Log.i("info", "LatMin " + minLat + "    LongMin " + minLong + " latMax  " + maxLat + "  LongMax " + maxLong);
+        if(minLat!=999999999){
+            LatLngBounds ZONA = new LatLngBounds(new LatLng(minLong,minLat),new LatLng(maxLong,maxLat));
 
-        int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels;
-        int padding = (int) (width * 0.12); // offset from edges of the map 12% of screen
+            int width = getResources().getDisplayMetrics().widthPixels;
+            int height = getResources().getDisplayMetrics().heightPixels;
+            int padding = (int) (width * 0.12); // offset from edges of the map 12% of screen
 
-        googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(ZONA, width,height,padding));
-
-
+            googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(ZONA, width,height,padding));
+        }
     }
 
 
