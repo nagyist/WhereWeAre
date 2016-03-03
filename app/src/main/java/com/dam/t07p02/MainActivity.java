@@ -22,10 +22,12 @@ import com.dam.t07p02.Modelo.ConexionBD;
 import com.dam.t07p02.Modelo.GpsIntentService;
 import com.dam.t07p02.Modelo.Localizacion;
 import com.dam.t07p02.Modelo.Usuario;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -39,6 +41,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MapFragment mapFragment;
     private boolean enviandoGps;
     private SharedPreferences pref;
+    private CameraUpdate cu;
+    private LatLngBounds.Builder builder;
+    private boolean zoomActualizado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivityForResult(i, 1);
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MainActivity.this);
+        zoomActualizado=true;
     }
 
     @Override
@@ -184,11 +190,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMapMA=googleMap;
+        googleMapMA.setOnCameraChangeListener(oCC_listener);
         setupMap();
     }
+    GoogleMap.OnCameraChangeListener oCC_listener=new GoogleMap.OnCameraChangeListener() {
+        @Override
+        public void onCameraChange(CameraPosition cameraPosition) {
+            if(!zoomActualizado){
+                googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
+                cu = CameraUpdateFactory.zoomTo(7);
+                googleMapMA.moveCamera(cu);
+                zoomActualizado=true;
+            }
+        }
+    };
 
 
     private void setupMap() {
+        zoomActualizado=false;
         ArrayList l=new ArrayList();
         if (googleMapMA != null )  {
             googleMapMA.clear();
@@ -198,48 +217,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bd.abrirConexion(this);
 
             bd.localizacionUsuarios(l);
+            builder = new LatLngBounds.Builder();
             for(Object ll:l){
+                LatLng point = new LatLng(((Localizacion) ll).getLatitud(), ((Localizacion) ll).getLongitud());
                 googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion) ll).getLatitud(), ((Localizacion) ll).getLongitud()))
-                        .title(String.valueOf(((Localizacion) ll).getDni()+" - "+((Localizacion) ll).getFechaHora().toString())));
+                        .title(String.valueOf(((Localizacion) ll).getDni() + " - " + ((Localizacion) ll).getFechaHora().toString())));
+                builder.include(point);
             }
             }
             else
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
-            cuadrarPuntos(l);
             setMapType();
-    }
-
-
-
-    private void cuadrarPuntos(ArrayList l){
-        double minLat=999999999;
-        double minLong=999999999;
-        double maxLat=-999999999;
-        double maxLong=-999999999;
-
-
-        for(Object ll:l){
-
-            if(((Localizacion)ll).getLatitud()<minLat)
-                minLat=((Localizacion)ll).getLatitud();
-            if(((Localizacion)ll).getLongitud()<minLong)
-                minLong=((Localizacion)ll).getLongitud();
-
-            if(((Localizacion)ll).getLatitud()>maxLat)
-                maxLat=((Localizacion)ll).getLatitud();
-            if(((Localizacion)ll).getLongitud()>maxLong)
-                maxLong=((Localizacion)ll).getLongitud();
-        }
-        Log.i("info", "LatMin " + minLat + "    LongMin " + minLong + " latMax  " + maxLat + "  LongMax " + maxLong);
-        if(minLat!=999999999){
-            LatLngBounds ZONA = new LatLngBounds(new LatLng(minLong,minLat),new LatLng(maxLong,maxLat));
-
-            int width = getResources().getDisplayMetrics().widthPixels;
-            int height = getResources().getDisplayMetrics().heightPixels;
-            int padding = (int) (width * 0.12); // offset from edges of the map 12% of screen
-
-            googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(ZONA, width,height,padding));
-        }
     }
 
 
@@ -256,6 +244,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(tipo.equals("Terrain"))
             googleMapMA.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
     }
-
-
 }
