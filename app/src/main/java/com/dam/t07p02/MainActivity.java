@@ -197,8 +197,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {
             if(!zoomActualizado){
-                googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
-                cu = CameraUpdateFactory.zoomTo(7);
+                googleMapMA.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 20));
+                cu = CameraUpdateFactory.newCameraPosition(googleMapMA.getCameraPosition());
                 googleMapMA.moveCamera(cu);
                 zoomActualizado=true;
             }
@@ -227,7 +227,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else
                 Snackbar.make(findViewById(android.R.id.content),R.string.eRConexion,Snackbar.LENGTH_SHORT).show();
-            setMapType();
+
+        setMapType();
     }
 
 
