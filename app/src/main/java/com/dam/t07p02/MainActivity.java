@@ -33,6 +33,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback{
 
@@ -220,10 +221,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             bd.localizacionUsuarios(l);
             builder = new LatLngBounds.Builder();
             for(Object ll:l){
+                double lat=((Localizacion) ll).getLatitud();
+                double lon=((Localizacion) ll).getLongitud();
+                String texto=String.valueOf(((Localizacion) ll).getDni() + " - " + ((Localizacion) ll).getFechaHora().toString());
+
                 LatLng point = new LatLng(((Localizacion) ll).getLatitud(), ((Localizacion) ll).getLongitud());
-                googleMapMA.addMarker(new MarkerOptions().position(new LatLng(((Localizacion) ll).getLatitud(), ((Localizacion) ll).getLongitud()))
-                        .title(String.valueOf(((Localizacion) ll).getDni() + " - " + ((Localizacion) ll).getFechaHora().toString())));
                 builder.include(point);
+
+                googleMapMA.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).title(texto));
             }
             }
             else

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.NotificationCompat;
@@ -17,8 +16,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Random;
 
 public class GpsIntentService extends IntentService implements
@@ -68,7 +65,7 @@ public class GpsIntentService extends IntentService implements
 //            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
             if (lastLoc!=null && currentLoc!=null) {
 //                new Localizacion(usuario, r.nextInt(10)-15, r.nextInt(10)-15,new Date()).actualizarLocalizacion();
-                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude(),new Date()).actualizarLocalizacion();
+                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude()).actualizarLocalizacion();
                 Log.i("infoooo", "LAST_LOC   " + usuario + "  La: " + lastLoc.getLatitude() + "          Lo: " + lastLoc.getLongitude());
                 Log.i("infoooo", "CURRENT_LOC" + usuario + "  La: " + currentLoc.getLatitude() + "       Lo: " + currentLoc.getLongitude());
             }

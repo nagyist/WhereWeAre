@@ -17,7 +17,12 @@ public class Localizacion {
         this.dni = dni;
         this.fechaHora = fechaHora;
         this.latitud = latitud;
-        this.st =ConexionBD.getSt();
+    }
+    public Localizacion(String dni,double longitud, double latitud ) {
+        this.longitud = longitud;
+        this.dni = dni;
+        this.fechaHora = new Date();
+        this.latitud = latitud;
     }
 
     public String getDni() {
@@ -55,6 +60,7 @@ public class Localizacion {
 
     public boolean actualizarLocalizacion(){
         Thread_actualizarLoc tAL=new Thread_actualizarLoc();
+        this.st =ConexionBD.getSt();
         tAL.start();
         try {
             tAL.join();
