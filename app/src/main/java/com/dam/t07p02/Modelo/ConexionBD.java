@@ -158,7 +158,7 @@ public class ConexionBD {
             try {
                 ResultSet rs=st.executeQuery(sql);
                 while(rs.next()){
-                    Localizacion l=new Localizacion(rs.getString(1),rs.getDouble(2),rs.getDouble(3),rs.getDate(4));
+                    Localizacion l=new Localizacion(rs.getString(1),rs.getDouble(2),rs.getDouble(3),rs.getTimestamp(4));
                     lLocalizaciones.add(l);
                 }
                 consultaCorrecta=true;

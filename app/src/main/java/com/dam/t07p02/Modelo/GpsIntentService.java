@@ -16,6 +16,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.sql.Timestamp;
 import java.util.Random;
 
 public class GpsIntentService extends IntentService implements
@@ -65,7 +67,7 @@ public class GpsIntentService extends IntentService implements
 //            if (lastLoc!=null && currentLoc!=null && lastLoc.distanceTo(currentLoc) > diferencia) {
             if (lastLoc!=null && currentLoc!=null) {
 //                new Localizacion(usuario, r.nextInt(10)-15, r.nextInt(10)-15,new Date()).actualizarLocalizacion();
-                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude()).actualizarLocalizacion();
+                new Localizacion(usuario, currentLoc.getLatitude(), currentLoc.getLongitude(),new Timestamp(BIND_AUTO_CREATE)).actualizarLocalizacion();
                 Log.i("infoooo", "LAST_LOC   " + usuario + "  La: " + lastLoc.getLatitude() + "          Lo: " + lastLoc.getLongitude());
                 Log.i("infoooo", "CURRENT_LOC" + usuario + "  La: " + currentLoc.getLatitude() + "       Lo: " + currentLoc.getLongitude());
             }

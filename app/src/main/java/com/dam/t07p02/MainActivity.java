@@ -15,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.dam.t07p02.Modelo.ConexionBD;
@@ -32,8 +31,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,OnMapReadyCallback{
 
@@ -220,10 +219,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             bd.localizacionUsuarios(l);
             builder = new LatLngBounds.Builder();
+            SimpleDateFormat fmt = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             for(Object ll:l){
                 double lat=((Localizacion) ll).getLatitud();
                 double lon=((Localizacion) ll).getLongitud();
-                String texto=String.valueOf(((Localizacion) ll).getDni() + " - " + ((Localizacion) ll).getFechaHora().toString());
+                String texto=String.valueOf(((Localizacion) ll).getDni() + " " + fmt.format(((Localizacion) ll).getFechaHora())+" min");
 
                 LatLng point = new LatLng(((Localizacion) ll).getLatitud(), ((Localizacion) ll).getLongitud());
                 builder.include(point);

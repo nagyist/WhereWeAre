@@ -2,26 +2,21 @@ package com.dam.t07p02.Modelo;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Localizacion {
     private String dni;
     private double latitud;
     private double longitud;
-    private Date fechaHora;
+    private Timestamp fechaHora;
     private boolean updateCorrecta;
     private Statement st;
 
-    public Localizacion(String dni,double longitud, double latitud , Date fechaHora) {
+    public Localizacion(String dni,double longitud, double latitud , Timestamp fechaHora) {
         this.longitud = longitud;
         this.dni = dni;
         this.fechaHora = fechaHora;
-        this.latitud = latitud;
-    }
-    public Localizacion(String dni,double longitud, double latitud ) {
-        this.longitud = longitud;
-        this.dni = dni;
-        this.fechaHora = new Date();
         this.latitud = latitud;
     }
 
@@ -37,7 +32,7 @@ public class Localizacion {
         return longitud;
     }
 
-    public void setFechaHora(Date fechaHora) {
+    public void setFechaHora(Timestamp fechaHora) {
         this.fechaHora = fechaHora;
     }
 
