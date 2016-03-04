@@ -193,6 +193,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         googleMapMA.setOnCameraChangeListener(oCC_listener);
         setupMap();
     }
+
     GoogleMap.OnCameraChangeListener oCC_listener=new GoogleMap.OnCameraChangeListener() {
         @Override
         public void onCameraChange(CameraPosition cameraPosition) {

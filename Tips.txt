@@ -20,7 +20,9 @@
 
 ** implementar el la rama de implementaciones un nuveo modelo relacional donde se puedan hacer trazas**
 
-**cambiar el zoom de la camara dependiendo de la posicion de los puntos
+**cambiar el zoom de la camara dependiendo de la posicion de los puntos**
+
+**cambiar el tipo de dato de fechaHora de la base de datos
 
 ** change the methot setUpMap in orde to print the trace of each user in time
 
