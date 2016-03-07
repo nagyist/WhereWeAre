@@ -22,7 +22,9 @@
 
 **cambiar el zoom de la camara dependiendo de la posicion de los puntos**
 
-**cambiar el tipo de dato de fechaHora de la base de datos
+**cambiar el tipo de dato de fechaHora de la base de datos**
+
+** implements a listView in the MainActivity to go to every user in the map
 
 ** change the methot setUpMap in orde to print the trace of each user in time
 
